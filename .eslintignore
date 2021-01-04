@@ -1,0 +1,12 @@
+**/dist
+**/config
+gulpfiles.js
+
+
+/gulp
+/src/local_modules
+**/build
+**/gulpfiles.js
+
+**/gulp/*.js
+**/src/local_modules/*
