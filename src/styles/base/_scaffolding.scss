@@ -5,8 +5,8 @@
 }
 
 html {
-  font-size: $base-font;
-  line-height: $base-font;
+  font-size: $base-font-size;
+  line-height: $base-font-size;
 }
 
 html,
@@ -15,8 +15,14 @@ body {
   padding: 0;
 }
 
+html {
+  @include font-Arial-normal;
+}
+
 body {
   margin: 0 auto;
+
+  background-color: black;
 }
 
 .visually-hidden:not(:focus):not(:active) {

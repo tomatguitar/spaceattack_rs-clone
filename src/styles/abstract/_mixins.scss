@@ -1,0 +1,11 @@
+@mixin box-sizing($box-model) {
+  -webkit-box-sizing: $box-model;
+  -moz-box-sizing: $box-model;
+  box-sizing: $box-model;
+}
+
+@mixin font-Arial-normal {
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+}
