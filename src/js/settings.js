@@ -11,6 +11,19 @@ const SETTINGS = {
     space: 32,
     esc: 27,
   },
+  PLAYER: {
+    divName: 'sprite--player',
+    startPosition: {
+      x: 0,
+      y: 0,
+    },
+    startLives: 3,
+    state: {
+      alive: 0,
+      dead: 1,
+      hitFlashing: 2, // Сколько раз корабль моргнет при попадании
+    },
+  },
 };
 
 const GameManager = {
