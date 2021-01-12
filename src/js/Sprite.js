@@ -17,7 +17,7 @@ class Sprite {
     this.position = position;
     this.imgName = imgName;
     this.size = sizeRem;
-    this.anchor = new Point(-this.sizeRem.width / 2, -this.size.height / 2);
+    this.anchor = new Point(-this.size.width / 2, -this.size.height / 2);
   }
 
   remove() {
@@ -26,17 +26,17 @@ class Sprite {
 
   add(shift) {
     const div = document.createElement('div');
-    div.className = 'sprite';
-    div.style.backgroundImage = `url('${this.imageName}')`;
-    div.style.width = `${this.size.width}rem`;
-    div.style.height = `${this.size.height}rem`;
+    div.classList.add('sprite', `${this.divName}`);
+    div.style.backgroundImage = `url('${this.imgName}')`;
+    div.style.width = `${this.size.width}px`;
+    div.style.height = `${this.size.height}px`;
     document.querySelector('.game__arena').append(div);
 
     this.setPosition(this.position.x, this.position.y, shift);
   }
 
   draw() {
-    const div = document.querySelector(this.divName);
+    const div = document.querySelector(`.${this.divName}`);
     div.style.left = this.position.x;
     div.style.top = this.position.y;
   }
