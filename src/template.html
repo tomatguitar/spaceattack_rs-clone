@@ -9,14 +9,25 @@
   <body>
     <div class="game">
       <header class="game__header">
-        <div class="game__scores">
-          <span class="score score--total">Total: <b>1000</b></span>
-          <span class="score score--best">Best: <b>1000</b></span>
+        <b class="counter counter--fps">0</b>
+        <div class="game__scores score">
+          <span class="score score--total"
+            >Total: <b class="counter counter--total">1000</b></span
+          >
+          <span class="score score--best"
+            >Best: <b class="counter counter--best">1000</b></span
+          >
         </div>
-        <div class="game__counters">
-          <span class="counter counter--lives">Lives: <b>3</b></span>
-          <span class="counter counter--hp"> HP: <b>100</b></span>
-          <span class="counter counter--destroyed"> Destroyed: <b>100</b></span>
+        <div class="game__stats stat">
+          <span class="stat stat--lives"
+            >Lives: <b class="counter counter--lives">0</b></span
+          >
+          <span class="stat stat--hp">
+            HP: <b class="counter counter--hp">100</b></span
+          >
+          <span class="stat stat--destroyed">
+            Destroyed: <b class="counter counter--destoyed">100</b></span
+          >
         </div>
         <div class="game__buttons">
           <button class="button button--pause">Пауза</button>
@@ -24,7 +35,7 @@
         </div>
       </header>
       <div class="game__arena">
-        <div class="sprite"></div>
+        <!-- <div class="sprite"></div> -->
       </div>
     </div>
   </body>
