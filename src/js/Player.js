@@ -3,7 +3,7 @@ import Size from './Size';
 import Sprite from './Sprite';
 
 class Player extends Sprite {
-  constructor(divName, position, assetDesc) {
+  constructor(divName, position, assetDesc, boundaryRect) {
     super(
       divName,
       position,
@@ -14,6 +14,26 @@ class Player extends Sprite {
     this.score = 0;
     this.highScore = 0;
     this.state = SETTINGS.PLAYER.state.alive;
+    this.boundaryRect = boundaryRect;
+    this.boundaryRect.shift(this.anchor.x, this.anchor.y);
+  }
+
+  move(x, y) {
+    let xStep = SETTINGS.PLAYER.moveStep * 2 * x;
+    let yStep = SETTINGS.PLAYER.moveStep * 2 * y;
+
+    if (this.boundaryRect.OutsideHorizontal(xStep + this.position.x) === true) {
+      xStep = 0;
+      // eslint-disable-next-line no-console
+      console.log('Предел по горизонтали');
+    }
+    if (this.boundaryRect.OutsideVertical(yStep + this.position.y) === true) {
+      yStep = 0;
+      // eslint-disable-next-line no-console
+      console.log('Предел по вертикали');
+    }
+
+    this.incrementPosition(xStep, yStep);
   }
 
   reset() {
@@ -30,7 +50,7 @@ class Player extends Sprite {
     );
   }
 
-  increFmentScore(amount) {
+  incrementScore(amount) {
     this.score += amount;
   }
 

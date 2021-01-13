@@ -6,27 +6,34 @@ import ship from '../assets/static/images/sship1.png';
 
 import { imageFiles, GameManager, SETTINGS } from './settings';
 
-import Size from './Size';
+// import Size from './Size';
 
 import Point from './Point';
 
-import Sprite from './Sprite';
+import Player from './Player';
+
+import Rect from './Rect';
 
 const resetPlayer = () => {
   if (GameManager.player === undefined) {
     // сейчас первый элемент в массиве  это картинка корбаля игрока
     const asset = GameManager.assets[ship];
 
-    GameManager.player = new Sprite(
-      SETTINGS.playerDivName,
-      new Point(SETTINGS.playerStartPosition.x, SETTINGS.playerStartPosition.y),
-      asset.imgFileName,
-      new Size(asset.width, asset.height)
+    GameManager.player = new Player(
+      SETTINGS.PLAYER.divName,
+      new Point(
+        SETTINGS.PLAYER.startPosition.x,
+        SETTINGS.PLAYER.startPosition.y
+      ),
+      asset,
+      //! баг: почему то путается высота и ширина
+      new Rect(60, 60, SETTINGS.ARENA.width - 130, SETTINGS.ARENA.height - 130)
     );
     GameManager.player.add(true);
   }
   // eslint-disable-next-line no-console
   console.log('resetplayer() GameManager.player:', GameManager.player);
+  GameManager.player.reset();
 };
 
 const init = () => {
@@ -58,43 +65,50 @@ const processAsset = (indexNum) => {
   });
 };
 
-const onKeyDown = (e) => {
-  switch (e.keyCode) {
-    case SETTINGS.CONTROLS.left: // Влево
-      // eslint-disable-next-line no-console
-      console.log('Влево');
-      break;
+const k = GameManager.keys;
 
-    case SETTINGS.CONTROLS.right: // Вправо
-      // eslint-disable-next-line no-console
-      console.log('Вправо');
-      break;
-
-    case SETTINGS.CONTROLS.up: // Вверх
-      // eslint-disable-next-line no-console
-      console.log('Вверх');
-      break;
-
-    case SETTINGS.CONTROLS.down: // Вниз
-      // eslint-disable-next-line no-console
-      console.log('Вниз');
-      break;
-
-    case SETTINGS.CONTROLS.space:
-      // eslint-disable-next-line no-console
-      console.log('Пробел');
-      break;
-
-    case 27: // Esc
-      // eslint-disable-next-line no-console
-      console.log('Esc');
-      break;
-    // no default
+const onKeyDown = () => {
+  if (k.ArrowLeft) {
+    // двигаться влево
+    GameManager.player.move(-1, 0);
+    // eslint-disable-next-line no-console
+    console.log('Влево', GameManager.player.position);
+  }
+  if (k.ArrowRight) {
+    // двигаться вправо
+    GameManager.player.move(1, 0);
+    // eslint-disable-next-line no-console
+    console.log('Вправо', GameManager.player.position);
+  }
+  if (k.ArrowDown) {
+    // двигаться вниз
+    GameManager.player.move(0, 1);
+    // eslint-disable-next-line no-console
+    console.log('Вниз', GameManager.player.position);
+  }
+  if (k.ArrowUp) {
+    // двигаться вверх
+    GameManager.player.move(0, -1);
+    // eslint-disable-next-line no-console
+    console.log('Вверх', GameManager.player.position);
   }
 };
 
-window.addEventListener('keydown', (e) => onKeyDown(e));
+const keyEventHandler = (e) => {
+  if (e.preventDefault) {
+    e.preventDefault();
+  } else {
+    e.returnValue = false;
+  }
+  k[e.code] = e.type === 'keydown';
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   processAsset(0);
+  document.addEventListener('keydown', (e) => keyEventHandler(e));
+  document.addEventListener('keyup', (e) => keyEventHandler(e));
+  // имитация Game loop
+  setInterval(() => {
+    onKeyDown();
+  }, 1000 / 24);
 });

@@ -1,7 +1,7 @@
 class Size {
-  constructor(width, heigth) {
-    this.width = width;
-    this.height = heigth;
+  constructor(w, h) {
+    this.width = w;
+    this.height = h;
   }
 }
 

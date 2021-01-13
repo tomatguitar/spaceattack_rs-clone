@@ -12,11 +12,11 @@ import Point from './Point';
 // в position передается класс Point у которого есть методы update() и increment()
 
 class Sprite {
-  constructor(divName, position, imgName, sizeRem) {
+  constructor(divName, position, imgName, size) {
     this.divName = divName;
     this.position = position;
     this.imgName = imgName;
-    this.size = sizeRem;
+    this.size = size;
     this.anchor = new Point(-this.size.width / 2, -this.size.height / 2);
   }
 
@@ -36,9 +36,9 @@ class Sprite {
   }
 
   draw() {
-    const div = document.querySelector(`.${this.divName}`);
-    div.style.left = this.position.x;
-    div.style.top = this.position.y;
+    const divDraw = document.querySelector(`.${this.divName}`);
+    divDraw.style.top = `${this.position.y}px`;
+    divDraw.style.left = `${this.position.x}px`;
   }
 
   setPosition(x, y, shift) {
@@ -52,10 +52,12 @@ class Sprite {
 
   updatePosition(x, y) {
     this.position.update(x, y);
+    this.draw();
   }
 
   incrementPosition(ix, iy) {
     this.position.increment(ix, iy);
+    this.draw();
   }
 }
 
