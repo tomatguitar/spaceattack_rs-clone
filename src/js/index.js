@@ -20,6 +20,10 @@ import EnemyCollection from './EnemyCollection';
 
 import { setUpSquences } from './Enemy';
 
+import Arena from './Arena';
+
+const arena = new Arena();
+
 const k = GameManager.keys;
 
 const onKeyDown = () => {
@@ -47,6 +51,11 @@ const onKeyDown = () => {
     // eslint-disable-next-line no-console
     console.log('Вверх', GameManager.player.position);
   }
+  if (k.Space) {
+    // нажимаем Space
+    // eslint-disable-next-line no-console
+    console.log('PEW!', GameManager.player.position);
+  }
 };
 
 // аналог ф-ции update
@@ -57,8 +66,8 @@ const tick = () => {
   GameManager.lastUpdated = now;
   GameManager.fps = parseInt(1000 / dt, 10);
   fpsBox.textContent = `FPS: ${parseInt(GameManager.fps, 10)}`;
-  onKeyDown();
-  // постоянная стрельба
+  onKeyDown(dt);
+  // появляются противники
   GameManager.bullets.update(dt);
   GameManager.enemies.update(dt);
   setTimeout(tick, SETTINGS.targetFPS);
@@ -103,6 +112,8 @@ const resetPlayer = () => {
 const resetGame = () => {
   // eslint-disable-next-line no-console
   console.log('Main Game reset()');
+  arena.updateArenaSize();
+  arena.updatePlayerStartPosition();
   resetPlayer();
   resetBullets();
   resetEnemies();
@@ -144,6 +155,7 @@ const keyEventHandler = (e) => {
 
 document.addEventListener('DOMContentLoaded', () => {
   processAsset(0);
+  arena.updateArenaSize();
   document.addEventListener('keydown', (e) => keyEventHandler(e));
   document.addEventListener('keyup', (e) => keyEventHandler(e));
 });

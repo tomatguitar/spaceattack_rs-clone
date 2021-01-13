@@ -4,12 +4,12 @@ import enemy1 from '../assets/static/images/enemy1.png';
 
 const imageFiles = [ship, laser, enemy1];
 
-const arena = document.querySelector('.game__arena');
-const arenaWidth = parseInt(getComputedStyle(arena).width, 10);
-const arenaHeight = parseInt(getComputedStyle(arena).height, 10);
-const arenaTop = parseInt(arena.getBoundingClientRect().top, 10);
-const arenaBottom = parseInt(arena.getBoundingClientRect().bottom, 10);
-const shipLength = 80; // высота корабля в пикселях
+// const arena = document.querySelector('.game__arena');
+// const arenaWidth = parseInt(getComputedStyle(arena).width, 10);
+// const arenaHeight = parseInt(getComputedStyle(arena).height, 10);
+// const arenaTop = parseInt(arena.getBoundingClientRect().top, 10);
+// const arenaBottom = parseInt(arena.getBoundingClientRect().bottom, 10);
+// const shipLength = 80; // высота корабля в пикселях
 
 const SETTINGS = {
   CONTROLS: {
@@ -23,8 +23,10 @@ const SETTINGS = {
   PLAYER: {
     divName: 'sprite--player',
     startPosition: {
-      x: arenaWidth / 2,
-      y: arenaBottom - (arenaTop + shipLength),
+      x: 0,
+      y: 0,
+      // x: arenaWidth / 2,
+      // y: arenaBottom - (arenaTop + shipLength),
     },
     startLives: 3,
     state: {
@@ -35,8 +37,12 @@ const SETTINGS = {
     moveStep: 5, // размер шага перемещения игрока за одно нажатие клавиши(скорость)
   },
   ARENA: {
-    width: arenaWidth,
-    height: arenaHeight,
+    width: 0,
+    height: 0,
+    top: 0,
+    bottom: 0,
+    // width: arenaWidth,
+    // height: arenaHeight,
   },
   ENEMY: {
     state: {
@@ -49,6 +55,16 @@ const SETTINGS = {
   bulletSpeed: 700 / 1000,
   bulletLife: 4000,
   bulletFireRate: 1000,
+
+  GAME_PHASE: {
+    paused: 0,
+    readyToPlay: 1,
+    countdownToStart: 2,
+    playing: 3,
+    gameOver: 4,
+  },
+  countdownGap: 700,
+  countdownValues: ['2', '1', 'GO!'],
 };
 
 const GameManager = {
@@ -56,6 +72,7 @@ const GameManager = {
   player: undefined,
   bullets: undefined,
   enemies: undefined,
+  phase: SETTINGS.GAME_PHASE.gameOver,
   keys: {},
   lastUpdated: Date.now(),
   elapsedTime: 0,
@@ -91,7 +108,7 @@ const WAYPOINTS = {
     {
       rotation: 0,
       x: 180,
-      y: arenaBottom - 100,
+      y: SETTINGS.ARENA.bottom - 100,
       dirX: 0,
       dirY: 0,
     },
