@@ -16,6 +16,10 @@ import Rect from './Rect';
 
 import BulletCollection from './BulletCollection';
 
+import EnemyCollection from './EnemyCollection';
+
+import { setUpSquences } from './Enemy';
+
 const k = GameManager.keys;
 
 const onKeyDown = () => {
@@ -45,6 +49,7 @@ const onKeyDown = () => {
   }
 };
 
+// аналог ф-ции update
 const tick = () => {
   const now = Date.now();
   const dt = now - GameManager.lastUpdated;
@@ -55,6 +60,7 @@ const tick = () => {
   onKeyDown();
   // постоянная стрельба
   GameManager.bullets.update(dt);
+  GameManager.enemies.update(dt);
   setTimeout(tick, SETTINGS.targetFPS);
 };
 
@@ -66,6 +72,10 @@ const resetBullets = () => {
   } else {
     GameManager.bullets = new BulletCollection(GameManager.player);
   }
+};
+
+const resetEnemies = () => {
+  GameManager.enemies = new EnemyCollection(GameManager.player);
 };
 
 const resetPlayer = () => {
@@ -95,6 +105,8 @@ const resetGame = () => {
   console.log('Main Game reset()');
   resetPlayer();
   resetBullets();
+  resetEnemies();
+  setUpSquences();
   setTimeout(tick, SETTINGS.targetFPS);
 };
 
