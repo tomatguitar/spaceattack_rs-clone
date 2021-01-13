@@ -14,6 +14,16 @@ import Player from './Player';
 
 import Rect from './Rect';
 
+const tick = () => {
+  const now = Date.now();
+  const dt = now - GameManager.lastUpdated;
+  const fpsBox = document.querySelector('.counter--fps');
+  GameManager.lastUpdated = now;
+  GameManager.fps = parseInt(1000 / dt, 10);
+  fpsBox.textContent = `FPS: ${parseInt(GameManager.fps, 10)}`;
+  setTimeout(tick, SETTINGS.targetFPS);
+};
+
 const resetPlayer = () => {
   if (GameManager.player === undefined) {
     // сейчас первый элемент в массиве  это картинка корбаля игрока
@@ -26,7 +36,6 @@ const resetPlayer = () => {
         SETTINGS.PLAYER.startPosition.y
       ),
       asset,
-      //! баг: почему то путается высота и ширина
       new Rect(60, 60, SETTINGS.ARENA.width - 130, SETTINGS.ARENA.height - 130)
     );
     GameManager.player.add(true);
@@ -40,6 +49,7 @@ const init = () => {
   // eslint-disable-next-line no-console
   console.log('Main Game init()');
   resetPlayer();
+  setTimeout(tick, SETTINGS.targetFPS);
 };
 
 const processAsset = (indexNum) => {
