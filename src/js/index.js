@@ -16,6 +16,35 @@ import Rect from './Rect';
 
 import BulletCollection from './BulletCollection';
 
+const k = GameManager.keys;
+
+const onKeyDown = () => {
+  if (k.ArrowLeft) {
+    // двигаться влево
+    GameManager.player.move(-1, 0);
+    // eslint-disable-next-line no-console
+    console.log('Влево', GameManager.player.position);
+  }
+  if (k.ArrowRight) {
+    // двигаться вправо
+    GameManager.player.move(1, 0);
+    // eslint-disable-next-line no-console
+    console.log('Вправо', GameManager.player.position);
+  }
+  if (k.ArrowDown) {
+    // двигаться вниз
+    GameManager.player.move(0, 1);
+    // eslint-disable-next-line no-console
+    console.log('Вниз', GameManager.player.position);
+  }
+  if (k.ArrowUp) {
+    // двигаться вверх
+    GameManager.player.move(0, -1);
+    // eslint-disable-next-line no-console
+    console.log('Вверх', GameManager.player.position);
+  }
+};
+
 const tick = () => {
   const now = Date.now();
   const dt = now - GameManager.lastUpdated;
@@ -23,6 +52,8 @@ const tick = () => {
   GameManager.lastUpdated = now;
   GameManager.fps = parseInt(1000 / dt, 10);
   fpsBox.textContent = `FPS: ${parseInt(GameManager.fps, 10)}`;
+  onKeyDown();
+  // постоянная стрельба
   GameManager.bullets.update(dt);
   setTimeout(tick, SETTINGS.targetFPS);
 };
@@ -90,35 +121,6 @@ const processAsset = (indexNum) => {
   });
 };
 
-const k = GameManager.keys;
-
-const onKeyDown = () => {
-  if (k.ArrowLeft) {
-    // двигаться влево
-    GameManager.player.move(-1, 0);
-    // eslint-disable-next-line no-console
-    console.log('Влево', GameManager.player.position);
-  }
-  if (k.ArrowRight) {
-    // двигаться вправо
-    GameManager.player.move(1, 0);
-    // eslint-disable-next-line no-console
-    console.log('Вправо', GameManager.player.position);
-  }
-  if (k.ArrowDown) {
-    // двигаться вниз
-    GameManager.player.move(0, 1);
-    // eslint-disable-next-line no-console
-    console.log('Вниз', GameManager.player.position);
-  }
-  if (k.ArrowUp) {
-    // двигаться вверх
-    GameManager.player.move(0, -1);
-    // eslint-disable-next-line no-console
-    console.log('Вверх', GameManager.player.position);
-  }
-};
-
 const keyEventHandler = (e) => {
   if (e.preventDefault) {
     e.preventDefault();
@@ -132,6 +134,4 @@ document.addEventListener('DOMContentLoaded', () => {
   processAsset(0);
   document.addEventListener('keydown', (e) => keyEventHandler(e));
   document.addEventListener('keyup', (e) => keyEventHandler(e));
-  // имитация Game loop
-  onKeyDown();
 });
