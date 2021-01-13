@@ -13,6 +13,13 @@ class Point {
     this.x += ix;
     this.y += iy;
   }
+
+  equalToPoint(x, y) {
+    if (this.x === x && this.y === y) {
+      return true;
+    }
+    return false;
+  }
 }
 
 export default Point;
