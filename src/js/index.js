@@ -14,6 +14,8 @@ import Player from './Player';
 
 import Rect from './Rect';
 
+import BulletCollection from './BulletCollection';
+
 const tick = () => {
   const now = Date.now();
   const dt = now - GameManager.lastUpdated;
@@ -21,7 +23,18 @@ const tick = () => {
   GameManager.lastUpdated = now;
   GameManager.fps = parseInt(1000 / dt, 10);
   fpsBox.textContent = `FPS: ${parseInt(GameManager.fps, 10)}`;
+  GameManager.bullets.update(dt);
   setTimeout(tick, SETTINGS.targetFPS);
+};
+
+const resetBullets = () => {
+  // если есть Пули
+  if (GameManager.bullets !== undefined) {
+    // тогда очистить
+    GameManager.bullets.reset();
+  } else {
+    GameManager.bullets = new BulletCollection(GameManager.player);
+  }
 };
 
 const resetPlayer = () => {
@@ -45,10 +58,12 @@ const resetPlayer = () => {
   GameManager.player.reset();
 };
 
-const init = () => {
+// инициализация игры
+const resetGame = () => {
   // eslint-disable-next-line no-console
-  console.log('Main Game init()');
+  console.log('Main Game reset()');
   resetPlayer();
+  resetBullets();
   setTimeout(tick, SETTINGS.targetFPS);
 };
 
@@ -70,7 +85,7 @@ const processAsset = (indexNum) => {
     } else {
       // eslint-disable-next-line no-console
       console.log('Assets Done:', GameManager.assets);
-      init();
+      resetGame();
     }
   });
 };
@@ -118,7 +133,5 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => keyEventHandler(e));
   document.addEventListener('keyup', (e) => keyEventHandler(e));
   // имитация Game loop
-  setInterval(() => {
-    onKeyDown();
-  }, 1000 / 24);
+  onKeyDown();
 });

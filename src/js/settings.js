@@ -40,7 +40,7 @@ const SETTINGS = {
   targetFPS: 1000 / 60,
   bulletSpeed: 700 / 1000,
   bulletLife: 4000,
-  bulletFireRate: 1000,
+  bulletFireRate: 200,
 };
 
 const GameManager = {
