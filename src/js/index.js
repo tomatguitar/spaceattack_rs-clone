@@ -132,7 +132,9 @@ function toggleStartPauseMode() {
   }
   if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
     GameManager.phase = SETTINGS.GAME_PHASE.paused;
+    writeMessage('Game paused');
   } else if (GameManager.phase === SETTINGS.GAME_PHASE.paused) {
+    clearMessages();
     runCountDown();
   }
 }
