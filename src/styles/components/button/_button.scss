@@ -8,13 +8,23 @@
   border: 1px solid yellow;
   border-radius: 0.5rem;
 
-  transition: 1s background;
+  transition: 0.5s background;
 }
 
-button:hover {
+.button--start {
+  width: 100%;
+}
+
+.button:hover {
   color: red;
 
   background: yellow;
 
-  transition: 1s background;
+  transition: 0.5s background;
+}
+
+.button:active {
+  color: black;
+
+  background: green;
 }

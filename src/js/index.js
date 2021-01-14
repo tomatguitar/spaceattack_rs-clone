@@ -20,6 +20,10 @@ import EnemyCollection from './EnemyCollection';
 
 import { setUpSquences } from './Enemy';
 
+import Arena from './Arena';
+
+const arena = new Arena();
+
 const k = GameManager.keys;
 
 const onKeyDown = () => {
@@ -47,22 +51,93 @@ const onKeyDown = () => {
     // eslint-disable-next-line no-console
     console.log('Вверх', GameManager.player.position);
   }
+  if (k.Space) {
+    // нажимаем Space
+    SETTINGS.fire = true;
+    // eslint-disable-next-line no-console
+    console.log('PEW!', GameManager.player.position);
+  }
 };
 
 // аналог ф-ции update
 const tick = () => {
-  const now = Date.now();
-  const dt = now - GameManager.lastUpdated;
-  const fpsBox = document.querySelector('.counter--fps');
-  GameManager.lastUpdated = now;
-  GameManager.fps = parseInt(1000 / dt, 10);
-  fpsBox.textContent = `FPS: ${parseInt(GameManager.fps, 10)}`;
-  onKeyDown();
-  // постоянная стрельба
-  GameManager.bullets.update(dt);
-  GameManager.enemies.update(dt);
-  setTimeout(tick, SETTINGS.targetFPS);
+  if (GameManager.phase !== SETTINGS.GAME_PHASE.paused) {
+    const now = Date.now();
+    const dt = now - GameManager.lastUpdated;
+    // const fpsBox = document.querySelector('.counter--fps');
+    GameManager.lastUpdated = now;
+    GameManager.fps = parseInt(1000 / dt, 10);
+    // fpsBox.textContent = `FPS: ${parseInt(GameManager.fps, 10)}`;
+    onKeyDown();
+    // появляются противники
+    GameManager.bullets.update(dt, SETTINGS.fire);
+    GameManager.enemies.update(dt);
+    setTimeout(tick, SETTINGS.targetFPS);
+  }
 };
+
+function appendMessage(text) {
+  const mContainer = document.querySelector('.message-container');
+  const message = document.createElement('div');
+  message.classList.add('message');
+  message.textContent = text;
+  mContainer.append(message);
+}
+
+function clearMessages() {
+  const mContainer = document.querySelector('.message-container');
+  mContainer.innerHTML = '';
+}
+
+function writeMessage(text) {
+  clearMessages();
+  appendMessage(text);
+}
+
+// function showGameOver() {
+//   GameManager.phase = SETTINGS.GAME_PHASE.gameOver;
+
+//   writeMessage('Game Over');
+//   setTimeout(() => {
+//     appendMessage('Press Space To Reset');
+//   }, SETTINGS.pressSpaceDelay);
+// }
+
+function endCountDown() {
+  clearMessages();
+  GameManager.phase = SETTINGS.GAME_PHASE.playing;
+  GameManager.lastUpdated = Date.now();
+  setTimeout(tick, SETTINGS.targetFPS);
+}
+
+function runCountDown() {
+  GameManager.phase = SETTINGS.GAME_PHASE.countdownToStart;
+  writeMessage(3);
+  for (let i = 0; i < SETTINGS.countdownValues.length; ++i) {
+    setTimeout(
+      writeMessage,
+      SETTINGS.countdownGap * (i + 1),
+      SETTINGS.countdownValues[i]
+    );
+  }
+  setTimeout(
+    endCountDown,
+    (SETTINGS.countdownValues.length + 1) * SETTINGS.countdownGap
+  );
+}
+
+function toggleStartPauseMode() {
+  if (GameManager.phase === SETTINGS.GAME_PHASE.readyToplay) {
+    runCountDown();
+  }
+  if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
+    GameManager.phase = SETTINGS.GAME_PHASE.paused;
+    writeMessage('Game paused');
+  } else if (GameManager.phase === SETTINGS.GAME_PHASE.paused) {
+    clearMessages();
+    runCountDown();
+  }
+}
 
 const resetBullets = () => {
   // если есть Пули
@@ -103,11 +178,18 @@ const resetPlayer = () => {
 const resetGame = () => {
   // eslint-disable-next-line no-console
   console.log('Main Game reset()');
+  arena.updateArenaSize();
+  arena.updatePlayerStartPosition();
   resetPlayer();
   resetBullets();
   resetEnemies();
-  setUpSquences();
-  setTimeout(tick, SETTINGS.targetFPS);
+  // setTimeout(tick, SETTINGS.targetFPS);
+
+  GameManager.phase = SETTINGS.GAME_PHASE.readyToplay;
+  GameManager.lastUpdated = Date.now();
+  GameManager.elapsedTime = 0;
+
+  writeMessage('Press Start button');
 };
 
 const processAsset = (indexNum) => {
@@ -142,7 +224,11 @@ const keyEventHandler = (e) => {
   k[e.code] = e.type === 'keydown';
 };
 
+const startButton = document.querySelector('.button--start');
+startButton.addEventListener('click', () => toggleStartPauseMode());
+
 document.addEventListener('DOMContentLoaded', () => {
+  setUpSquences();
   processAsset(0);
   document.addEventListener('keydown', (e) => keyEventHandler(e));
   document.addEventListener('keyup', (e) => keyEventHandler(e));

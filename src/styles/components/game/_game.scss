@@ -9,12 +9,10 @@
   padding-left: 2rem;
 
   &__header {
-    position: relative;
-
     display: flex;
+    justify-content: space-between;
 
     width: 100%;
-    height: 11%;
   }
 
   &__arena {
@@ -28,39 +26,32 @@
     background-image: url('../assets/static/images/galaxy1.jpg');
 
     border: solid yellow 2px;
+    border-radius: 1rem;
   }
 
   &__scores {
-    position: absolute;
-    bottom: 0rem;
-    left: 1rem;
-
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
   &__stats {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 50%;
     z-index: 30;
 
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: space-between;
     margin: 0 auto;
-
-    transform: translateX(-50%);
   }
 
   &__buttons {
-    position: absolute;
-    right: 1rem;
-    bottom: 0rem;
-
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
   }
+}
+
+.buttons-wrapper {
+  display: flex;
+  flex-direction: column;
 }
