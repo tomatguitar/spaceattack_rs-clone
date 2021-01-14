@@ -13,12 +13,13 @@ const imageFiles = [ship, laser, enemy1];
 
 const SETTINGS = {
   CONTROLS: {
-    left: 'ArrowLeft',
-    right: 'ArrowRight',
-    up: 'ArrowUp',
-    down: 'ArrowDown',
-    space: 32,
-    esc: 27,
+    keyPress: {
+      left: 37,
+      right: 39,
+      up: 38,
+      down: 40,
+      space: 32,
+    },
   },
   PLAYER: {
     divName: 'sprite--player',
@@ -51,10 +52,12 @@ const SETTINGS = {
       hitFlashing: 2,
     },
   },
+
   targetFPS: 1000 / 60,
   bulletSpeed: 700 / 1000,
   bulletLife: 4000,
-  bulletFireRate: 1000,
+  bulletFireRate: 200,
+  fire: false,
 
   GAME_PHASE: {
     paused: 0,
@@ -65,6 +68,7 @@ const SETTINGS = {
   },
   countdownGap: 700,
   countdownValues: ['2', '1', 'GO!'],
+  pressSpaceDelay: 3000,
 };
 
 const GameManager = {

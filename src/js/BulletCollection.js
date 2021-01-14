@@ -21,7 +21,7 @@ class BulletCollection {
     this.total_bullets = 0;
   }
 
-  update(dt) {
+  update(dt, fire) {
     // берем массив объектов пуль и начинаем обход с конца
     for (let i = this.listBullets.length - 1; i >= 0; --i) {
       // если у объекта Пуля значение dead = true, т.е. у пули закончилось время жизни на игровом поле
@@ -37,24 +37,27 @@ class BulletCollection {
     this.lastAdded += dt;
 
     // если игрок не мигает после попадания и время последней добавленной в массив Пули больше чем темп стрельбы
-    if (
-      this.lastAdded > SETTINGS.bulletFireRate &&
-      this.player.state !== SETTINGS.PLAYER.state.hitFlashing
-    ) {
-      // обнуляем приращение
-      this.lastAdded = 0;
-      // добавляем в массив пуль новую Пулю
-      this.listBullets.push(
-        new Bullet(
-          `bullet_${this.total_bullets}`,
-          GameManager.assets[laser],
-          new Point(
-            this.player.position.x + this.player.size.width / 2,
-            this.player.position.y
+    if (fire) {
+      if (
+        this.lastAdded > SETTINGS.bulletFireRate &&
+        this.player.state !== SETTINGS.PLAYER.state.hitFlashing
+      ) {
+        // обнуляем приращение
+        this.lastAdded = 0;
+        // добавляем в массив пуль новую Пулю
+        this.listBullets.push(
+          new Bullet(
+            `bullet_${this.total_bullets}`,
+            GameManager.assets[laser],
+            new Point(
+              this.player.position.x + this.player.size.width / 2,
+              this.player.position.y
+            )
           )
-        )
-      );
-      this.total_bullets += 1;
+        );
+        this.total_bullets += 1;
+        SETTINGS.fire = false;
+      }
     }
   }
 }

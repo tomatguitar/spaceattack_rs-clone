@@ -53,6 +53,7 @@ const onKeyDown = () => {
   }
   if (k.Space) {
     // нажимаем Space
+    SETTINGS.fire = true;
     // eslint-disable-next-line no-console
     console.log('PEW!', GameManager.player.position);
   }
@@ -66,9 +67,9 @@ const tick = () => {
   GameManager.lastUpdated = now;
   GameManager.fps = parseInt(1000 / dt, 10);
   fpsBox.textContent = `FPS: ${parseInt(GameManager.fps, 10)}`;
-  onKeyDown(dt);
+  onKeyDown();
   // появляются противники
-  GameManager.bullets.update(dt);
+  GameManager.bullets.update(dt, SETTINGS.fire);
   GameManager.enemies.update(dt);
   setTimeout(tick, SETTINGS.targetFPS);
 };
