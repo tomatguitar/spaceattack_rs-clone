@@ -57,6 +57,7 @@ const SETTINGS = {
   bulletSpeed: 700 / 1000,
   bulletLife: 4000,
   bulletFireRate: 200,
+  bulletTop: 10,
   fire: false,
 
   GAME_PHASE: {

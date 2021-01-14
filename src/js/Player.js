@@ -52,6 +52,8 @@ class Player extends Sprite {
 
   incrementScore(amount) {
     this.score += amount;
+    this.setScore();
+    this.setHighScore();
   }
 
   setLives() {

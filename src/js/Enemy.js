@@ -153,16 +153,16 @@ const setUpSquences = () => {
     800,
     WAYPOINTS.LEFT_TO_RIGHT_SHALLOW
   );
-  addEnemySequence(
-    4000,
-    enemy,
-    100,
-    1,
-    400 / 1000,
-    6,
-    400,
-    WAYPOINTS.STREAM_FROM_B180
-  );
+  // addEnemySequence(
+  //   4000,
+  //   enemy,
+  //   100,
+  //   1,
+  //   400 / 1000,
+  //   6,
+  //   400,
+  //   WAYPOINTS.STREAM_FROM_B180
+  // );
   // eslint-disable-next-line no-console
   console.log(ENEMY_SEQUENCES);
 };
