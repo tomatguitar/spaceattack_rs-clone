@@ -13,6 +13,9 @@ class Player extends Sprite {
     this.lives = SETTINGS.PLAYER.startLives;
     this.score = 0;
     this.highScore = 0;
+    this.hit = false;
+    this.lastFlash = 0;
+    this.numFlashes = 0;
     this.state = SETTINGS.PLAYER.state.alive;
     this.boundaryRect = boundaryRect;
     this.boundaryRect.shift(this.anchor.x, this.anchor.y);
@@ -36,9 +39,52 @@ class Player extends Sprite {
     this.incrementPosition(xStep, yStep);
   }
 
+  update(dt) {
+    const ship = document.querySelector(`.${this.divName}`);
+    switch (this.state) {
+      case SETTINGS.PLAYER.state.hitFlashing:
+        this.lastFlash += dt;
+        if (this.lastFlash > SETTINGS.PLAYER.flashTime) {
+          this.lastFlash = 0;
+          this.numFlashes += 1;
+
+          if (this.numFlashes === SETTINGS.PLAYER.flashes) {
+            // eslint-disable-next-line no-console
+            console.log('Снова в строю!');
+            this.state = SETTINGS.PLAYER.state.alive;
+            ship.style.display = 'block';
+            this.hit = false;
+            ship.style.opacity = '1.0';
+          } else if (this.numFlashes % 2 === 1) {
+            ship.style.display = 'none';
+          } else {
+            ship.style.display = 'block';
+          }
+        }
+        break;
+      // no default
+    }
+
+    if (this.hit && this.state !== SETTINGS.PLAYER.state.hitFlashing) {
+      this.state = SETTINGS.PLAYER.state.hitFlashing;
+      this.lastFlash = 0;
+      this.numFlashes = 0;
+      this.lives -= 1;
+      this.setLives();
+      // eslint-disable-next-line no-console
+      console.log('Попадание по игроку!');
+      if (this.lives > 0) {
+        ship.style.opacity = SETTINGS.PLAYER.flashOpacity;
+      }
+    }
+  }
+
   reset() {
     this.state = SETTINGS.PLAYER.state.alive;
     this.score = 0;
+    this.hit = false;
+    this.lastFlash = 0;
+    this.numFlashes = 0;
     this.lives = SETTINGS.PLAYER.startLives;
     this.setLives();
     this.setScore();

@@ -59,23 +59,6 @@ const onKeyDown = () => {
   }
 };
 
-// аналог ф-ции update
-const tick = () => {
-  if (GameManager.phase !== SETTINGS.GAME_PHASE.paused) {
-    const now = Date.now();
-    const dt = now - GameManager.lastUpdated;
-    // const fpsBox = document.querySelector('.counter--fps');
-    GameManager.lastUpdated = now;
-    GameManager.fps = parseInt(1000 / dt, 10);
-    // fpsBox.textContent = `FPS: ${parseInt(GameManager.fps, 10)}`;
-    onKeyDown();
-    // появляются противники
-    GameManager.bullets.update(dt, SETTINGS.fire);
-    GameManager.enemies.update(dt);
-    setTimeout(tick, SETTINGS.targetFPS);
-  }
-};
-
 function appendMessage(text) {
   const mContainer = document.querySelector('.message-container');
   const message = document.createElement('div');
@@ -94,14 +77,45 @@ function writeMessage(text) {
   appendMessage(text);
 }
 
-// function showGameOver() {
-//   GameManager.phase = SETTINGS.GAME_PHASE.gameOver;
+function showGameOver() {
+  GameManager.phase = SETTINGS.GAME_PHASE.gameOver;
 
-//   writeMessage('Game Over');
-//   setTimeout(() => {
-//     appendMessage('Press Space To Reset');
-//   }, SETTINGS.pressSpaceDelay);
-// }
+  writeMessage('Game Over');
+  setTimeout(() => {
+    appendMessage('Press Space To Reset');
+  }, SETTINGS.pressSpaceDelay);
+}
+
+// аналог ф-ции update
+function tick() {
+  if (GameManager.phase !== SETTINGS.GAME_PHASE.paused) {
+    const now = Date.now();
+    const dt = now - GameManager.lastUpdated;
+    // const fpsBox = document.querySelector('.counter--fps');
+    GameManager.lastUpdated = now;
+    GameManager.fps = parseInt(1000 / dt, 10);
+    // fpsBox.textContent = `FPS: ${parseInt(GameManager.fps, 10)}`;
+    onKeyDown();
+    // появляются противники
+    GameManager.enemies.update(dt);
+
+    if (GameManager.enemies.gameOver) {
+      // eslint-disable-next-line no-console
+      console.log('game over');
+      showGameOver();
+    } else {
+      GameManager.bullets.update(dt, SETTINGS.fire);
+      GameManager.player.update(dt);
+      if (GameManager.player.lives <= 0) {
+        // eslint-disable-next-line no-console
+        console.log('game over');
+        showGameOver();
+      } else if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
+        setTimeout(tick, SETTINGS.targetFPS);
+      }
+    }
+  }
+}
 
 function endCountDown() {
   clearMessages();

@@ -44,8 +44,19 @@ class Enemy extends Sprite {
     switch (this.state) {
       case SETTINGS.ENEMY.state.movingToWaypoint:
         this.moveTowardPoint(dt);
+        this.checkPlayerCollision();
         break;
       // no default
+    }
+  }
+
+  checkPlayerCollision() {
+    if (this.containingBox.IntersectedBy(this.player.containingBox)) {
+      if (!this.player.hit) {
+        this.player.hit = true;
+        // eslint-disable-next-line no-console
+        console.log('столкновение с игроком');
+      }
     }
   }
 
