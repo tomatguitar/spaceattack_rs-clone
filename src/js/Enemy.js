@@ -44,8 +44,19 @@ class Enemy extends Sprite {
     switch (this.state) {
       case SETTINGS.ENEMY.state.movingToWaypoint:
         this.moveTowardPoint(dt);
+        this.checkPlayerCollision();
         break;
       // no default
+    }
+  }
+
+  checkPlayerCollision() {
+    if (this.containingBox.IntersectedBy(this.player.containingBox)) {
+      if (!this.player.hit) {
+        this.player.hit = true;
+        // eslint-disable-next-line no-console
+        console.log('столкновение с игроком');
+      }
     }
   }
 
@@ -153,16 +164,16 @@ const setUpSquences = () => {
     800,
     WAYPOINTS.LEFT_TO_RIGHT_SHALLOW
   );
-  addEnemySequence(
-    4000,
-    enemy,
-    100,
-    1,
-    400 / 1000,
-    6,
-    400,
-    WAYPOINTS.STREAM_FROM_B180
-  );
+  // addEnemySequence(
+  //   4000,
+  //   enemy,
+  //   100,
+  //   1,
+  //   400 / 1000,
+  //   6,
+  //   400,
+  //   WAYPOINTS.STREAM_FROM_B180
+  // );
   // eslint-disable-next-line no-console
   console.log(ENEMY_SEQUENCES);
 };

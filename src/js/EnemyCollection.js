@@ -2,7 +2,7 @@ import { ENEMY_SEQUENCES, SETTINGS, GameManager } from './settings';
 import Enemy from './Enemy';
 
 class EnemyCollection {
-  constructor(player) {
+  constructor(player, bullets) {
     this.listEnemies = [];
     this.lastAdded = 0;
     this.gameOver = false;
@@ -10,6 +10,17 @@ class EnemyCollection {
     this.sequencesDone = false;
     this.count = 0;
     this.player = player;
+    this.bullets = bullets;
+  }
+
+  reset() {
+    this.killAll();
+    this.listEnemies = [];
+    this.lastAdded = 0;
+    this.gameOver = false;
+    this.sequenceIndex = 0;
+    this.sequencesDone = false;
+    this.count = 0;
   }
 
   killAll() {
@@ -30,8 +41,27 @@ class EnemyCollection {
     for (let i = this.listEnemies.length - 1; i >= 0; --i) {
       if (this.listEnemies[i].state === SETTINGS.ENEMY.state.dead) {
         this.listEnemies.splice(i, 1);
-      } else {
-        this.listEnemies[i].update(dt);
+      } else if (
+        this.listEnemies[i].state === SETTINGS.ENEMY.state.movingToWaypoint
+      ) {
+        const enemy = this.listEnemies[i];
+
+        for (let b = 0; b < this.bullets.listBullets.length; b++) {
+          const bullet = this.bullets.listBullets[b];
+          if (
+            bullet.dead === false &&
+            bullet.position.y > SETTINGS.bulletTop &&
+            enemy.containingBox.IntersectedBy(bullet.containingBox) === true
+          ) {
+            bullet.kill();
+            enemy.lives -= 1;
+            if (enemy.lives <= 0) {
+              this.player.incrementScore(enemy.score);
+              enemy.killMe();
+            }
+          }
+        }
+        enemy.update(dt);
       }
     }
 

@@ -29,6 +29,9 @@ const SETTINGS = {
       // x: arenaWidth / 2,
       // y: arenaBottom - (arenaTop + shipLength),
     },
+    flashOpacity: '0.5',
+    flashTime: 300,
+    flashes: 8,
     startLives: 3,
     state: {
       alive: 0,
@@ -57,6 +60,7 @@ const SETTINGS = {
   bulletSpeed: 700 / 1000,
   bulletLife: 4000,
   bulletFireRate: 200,
+  bulletTop: 10,
   fire: false,
 
   GAME_PHASE: {
