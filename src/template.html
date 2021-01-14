@@ -9,8 +9,7 @@
   <body>
     <div class="game">
       <header class="game__header">
-        <b class="counter counter--fps">0</b>
-        <div class="game__scores score">
+        <div class="game__scores">
           <span class="score score--total"
             >Total: <b class="counter counter--total">1000</b></span
           >
@@ -18,7 +17,7 @@
             >Best: <b class="counter counter--best">1000</b></span
           >
         </div>
-        <div class="game__stats stat">
+        <div class="game__stats">
           <span class="stat stat--lives"
             >Lives: <b class="counter counter--lives">0</b></span
           >
@@ -29,13 +28,23 @@
             Destroyed: <b class="counter counter--destoyed">100</b></span
           >
         </div>
-        <div class="game__buttons">
-          <button class="button button--pause">Пауза</button>
-          <button class="button buttons--back">В главное меню</button>
+        <div class="buttons-wrapper">
+          <div class="game__buttons">
+            <button class="button button--start">New Game(Start/Pause)</button>
+          </div>
+          <div class="game__buttons">
+            <button class="button buttons--back">Load</button>
+            <button class="button buttons--back">Save</button>
+            <button class="button buttons--back">Settings</button>
+            <button class="button buttons--back">About</button>
+          </div>
         </div>
       </header>
       <div class="game__arena">
-        <!-- <div class="sprite"></div> -->
+        <div class="message-container">
+          <!-- <div class="message">Game Over</div>
+          <div class="message">Press Space to Continue</div> -->
+        </div>
       </div>
     </div>
   </body>
