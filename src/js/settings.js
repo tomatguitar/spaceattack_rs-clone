@@ -80,6 +80,7 @@ const GameManager = {
   player: undefined,
   bullets: undefined,
   enemies: undefined,
+  timeouts: [],
   phase: SETTINGS.GAME_PHASE.gameOver,
   keys: {},
   lastUpdated: Date.now(),

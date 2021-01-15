@@ -22,6 +22,8 @@ import { setUpSquences } from './Enemy';
 
 import Arena from './Arena';
 
+import * as stars from './stars';
+
 const arena = new Arena();
 
 const k = GameManager.keys;
@@ -77,8 +79,18 @@ function writeMessage(text) {
   appendMessage(text);
 }
 
+function clearTimeouts() {
+  for (let i = 0; i < GameManager.timeouts.length; i++) {
+    clearTimeout(GameManager.timeouts[i]);
+  }
+  GameManager.timeouts = [];
+}
+
 function showGameOver() {
   GameManager.phase = SETTINGS.GAME_PHASE.gameOver;
+
+  stars.pauseStars();
+  clearTimeouts();
 
   writeMessage('Game Over');
   setTimeout(() => {
@@ -125,6 +137,7 @@ function endCountDown() {
 }
 
 function runCountDown() {
+  stars.createStars();
   GameManager.phase = SETTINGS.GAME_PHASE.countdownToStart;
   writeMessage(3);
   for (let i = 0; i < SETTINGS.countdownValues.length; ++i) {
@@ -199,6 +212,8 @@ const resetPlayer = () => {
 const resetGame = () => {
   // eslint-disable-next-line no-console
   console.log('Main Game reset()');
+  clearTimeouts();
+  stars.removeStars();
   arena.updateArenaSize();
   arena.updatePlayerStartPosition();
   resetPlayer();
