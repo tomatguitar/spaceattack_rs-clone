@@ -88,7 +88,7 @@ function clearTimeouts() {
 
 function showGameOver() {
   GameManager.phase = SETTINGS.GAME_PHASE.gameOver;
-
+  stars.pauseBackground();
   stars.pauseStars();
   clearTimeouts();
 
@@ -137,6 +137,7 @@ function endCountDown() {
 }
 
 function runCountDown() {
+  stars.runBackground();
   stars.createStars();
   GameManager.phase = SETTINGS.GAME_PHASE.countdownToStart;
   writeMessage(3);
@@ -187,21 +188,22 @@ const resetEnemies = () => {
   }
 };
 
+const createPlayer = () => {
+  const asset = GameManager.assets[ship];
+
+  GameManager.player = new Player(
+    SETTINGS.PLAYER.divName,
+    new Point(SETTINGS.PLAYER.startPosition.x, SETTINGS.PLAYER.startPosition.y),
+    asset,
+    new Rect(60, 60, SETTINGS.ARENA.width - 130, SETTINGS.ARENA.height - 130)
+  );
+  GameManager.player.add(true);
+};
+
 const resetPlayer = () => {
   if (GameManager.player === undefined) {
     // сейчас первый элемент в массиве  это картинка корбаля игрока
-    const asset = GameManager.assets[ship];
-
-    GameManager.player = new Player(
-      SETTINGS.PLAYER.divName,
-      new Point(
-        SETTINGS.PLAYER.startPosition.x,
-        SETTINGS.PLAYER.startPosition.y
-      ),
-      asset,
-      new Rect(60, 60, SETTINGS.ARENA.width - 130, SETTINGS.ARENA.height - 130)
-    );
-    GameManager.player.add(true);
+    createPlayer();
   }
   // eslint-disable-next-line no-console
   console.log('resetplayer() GameManager.player:', GameManager.player);
