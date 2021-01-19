@@ -1,5 +1,5 @@
 import { SETTINGS, soundFiles } from '../gameSettings/settings';
-import * as sounds from '../gameSettings/sounds';
+import * as sounds from '../soundManage/sounds';
 import Size from '../Size/Size';
 import Sprite from '../Sprite/Sprite';
 

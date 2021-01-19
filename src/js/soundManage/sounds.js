@@ -1,4 +1,4 @@
-import { GameManager, soundFiles } from './settings';
+import { GameManager, soundFiles } from '../gameSettings/settings';
 
 function loadSound(fileName) {
   GameManager.sounds[fileName] = new Audio(`${fileName}`);

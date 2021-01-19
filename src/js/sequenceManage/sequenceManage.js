@@ -3,7 +3,7 @@ import {
   ENEMY_SEQUENCES,
   ATTACK_BLOCKS,
   ENEMY_SPEED,
-} from './settings';
+} from '../gameSettings/settings';
 
 function addEnemySequence(
   delayBefore,

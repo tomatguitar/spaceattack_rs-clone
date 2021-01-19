@@ -4,7 +4,7 @@ import {
   GameManager,
   soundFiles,
 } from '../gameSettings/settings';
-import * as sounds from '../gameSettings/sounds';
+import * as sounds from '../soundManage/sounds';
 import Enemy from '../Enemy/Enemy';
 import Point from '../Point/Point';
 

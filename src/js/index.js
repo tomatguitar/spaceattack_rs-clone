@@ -24,7 +24,7 @@ import BulletCollection from './BulletCollection/BulletCollection';
 
 import EnemyCollection from './EnemyCollection/EnemyCollection';
 
-import setUpSquences from './gameSettings/sequences';
+import setUpSquences from './sequenceManage/sequenceManage';
 
 import Arena from './Arena/Arena';
 
@@ -32,7 +32,7 @@ import Explosion from './Explosion/Explosion';
 
 import * as stars from './animations/stars';
 
-import * as sounds from './gameSettings/sounds';
+import * as sounds from './soundManage/sounds';
 
 const arena = new Arena();
 
