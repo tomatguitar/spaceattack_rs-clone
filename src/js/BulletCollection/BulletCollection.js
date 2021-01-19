@@ -1,7 +1,7 @@
-import { SETTINGS, GameManager } from './settings';
-import laser from '../assets/static/images/laser.png';
-import Bullet from './BulletCollection/BulletCollection';
-import Point from './Point/Point';
+import { SETTINGS, GameManager } from '../gameSettings/settings';
+import laser from '../../assets/static/images/laser.png';
+import Bullet from '../Bullet/Bullet';
+import Point from '../Point/Point';
 
 class BulletCollection {
   constructor(player) {

@@ -1,6 +1,7 @@
-import { SETTINGS } from './settings';
-import Size from './Size';
-import Sprite from './Sprite';
+import { SETTINGS, soundFiles } from '../gameSettings/settings';
+import * as sounds from '../gameSettings/sounds';
+import Size from '../Size/Size';
+import Sprite from '../Sprite/Sprite';
 
 class Player extends Sprite {
   constructor(divName, position, assetDesc, boundaryRect) {
@@ -71,6 +72,7 @@ class Player extends Sprite {
       this.numFlashes = 0;
       this.lives -= 1;
       this.setLives();
+      sounds.playSound(soundFiles.loseLife);
       // eslint-disable-next-line no-console
       console.log('Попадание по игроку!');
       if (this.lives > 0) {

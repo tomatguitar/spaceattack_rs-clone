@@ -1,4 +1,4 @@
-import Point from './Point';
+import Point from '../Point/Point';
 
 class Waypoint {
   constructor(x, y, dirX, dirY) {

@@ -4,34 +4,35 @@ import '../styles/index.scss';
 
 import ship from '../assets/static/images/sship1.png';
 import explosion0 from '../assets/static/images/explosion/explosion00_s.png';
-// import countdown from '../assets/static/sounds/countdown.wav';
-// import go from '../assets/static/sounds/go.wav';
-// import completed from '../assets/static/sounds/completed.wav';
-// import gameOver from '../assets/static/sounds/gameover.wav';
 
-import { imageFiles, GameManager, SETTINGS, soundFiles } from './settings';
+import {
+  imageFiles,
+  GameManager,
+  SETTINGS,
+  soundFiles,
+} from './gameSettings/settings';
 
 // import Size from './Size';
 
-import Point from './Point';
+import Point from './Point/Point';
 
-import Player from './Player';
+import Player from './Player/Player';
 
-import Rect from './Rect';
+import Rect from './Rect/Rect';
 
-import BulletCollection from './BulletCollection';
+import BulletCollection from './BulletCollection/BulletCollection';
 
-import EnemyCollection from './EnemyCollection';
+import EnemyCollection from './EnemyCollection/EnemyCollection';
 
-import { setUpSquences } from './Enemy';
+import setUpSquences from './gameSettings/sequences';
 
-import Arena from './Arena';
+import Arena from './Arena/Arena';
 
-import Explosion from './Explosion';
+import Explosion from './Explosion/Explosion';
 
-import * as stars from './stars';
+import * as stars from './animations/stars';
 
-import * as sounds from './sounds';
+import * as sounds from './gameSettings/sounds';
 
 const arena = new Arena();
 
@@ -261,7 +262,8 @@ const resetGame = () => {
 const processAsset = (indexNum) => {
   let currentIndex = indexNum;
   const img = new Image();
-  const currentImage = imageFiles[currentIndex];
+  const imageFilesArr = Object.values(imageFiles).flat();
+  const currentImage = imageFilesArr[currentIndex];
   // const imgFileName = `url('../assets/static/images/${currentImage}.png')`;
   img.src = currentImage;
   img.addEventListener('load', () => {
@@ -271,7 +273,7 @@ const processAsset = (indexNum) => {
       imgFileName: currentImage,
     };
     currentIndex += 1;
-    if (currentIndex < imageFiles.length) {
+    if (currentIndex < imageFilesArr.length) {
       processAsset(currentIndex);
     } else {
       // eslint-disable-next-line no-console

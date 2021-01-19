@@ -1,4 +1,4 @@
-import { SETTINGS } from './settings';
+import { SETTINGS } from '../gameSettings/settings';
 
 class Arena {
   constructor() {

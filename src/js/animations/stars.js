@@ -1,4 +1,4 @@
-import { GameManager, SETTINGS } from './settings';
+import { GameManager, SETTINGS } from '../gameSettings/settings';
 
 const starsContainer = document.querySelector('.stars');
 const stars = document.querySelectorAll('.star');

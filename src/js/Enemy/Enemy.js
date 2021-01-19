@@ -1,10 +1,8 @@
-import { ENEMY_SEQUENCES, SETTINGS, WAYPOINTS } from './settings';
-import Sprite from './Sprite';
-import Point from './Point';
-import Size from './Size';
-import Waypoint from './Waypoint';
-
-import enemy from '../assets/static/images/enemy1.png';
+import { SETTINGS } from '../gameSettings/settings';
+import Sprite from '../Sprite/Sprite';
+import Point from '../Point/Point';
+import Size from '../Size/Size';
+import Waypoint from '../Waypoint/Waypoint';
 
 class Enemy extends Sprite {
   constructor(divName, assetDesc, player, sequence) {
@@ -127,55 +125,4 @@ class Enemy extends Sprite {
   }
 }
 
-const addEnemySequence = (
-  delayBefore, // задержка перед появлением
-  image,
-  score,
-  lives,
-  speed,
-  number, // число врагов в последовательности
-  delayBetween, // задержка между появлениями
-  waypoints
-) => {
-  for (let i = 0; i < number; ++i) {
-    let delay = delayBetween;
-    if (i === 0) {
-      delay = delayBefore;
-    }
-    ENEMY_SEQUENCES.push({
-      delayBefore: delay,
-      image: image,
-      waypoints: waypoints,
-      score: score,
-      lives: lives,
-      speed: speed,
-    });
-  }
-};
-
-const setUpSquences = () => {
-  addEnemySequence(
-    2000,
-    enemy,
-    100,
-    1,
-    200 / 1000,
-    2,
-    800,
-    WAYPOINTS.LEFT_TO_RIGHT_SHALLOW
-  );
-  // addEnemySequence(
-  //   4000,
-  //   enemy,
-  //   100,
-  //   1,
-  //   400 / 1000,
-  //   6,
-  //   400,
-  //   WAYPOINTS.STREAM_FROM_B180
-  // );
-  // eslint-disable-next-line no-console
-  console.log(ENEMY_SEQUENCES);
-};
-
-export { Enemy as default, setUpSquences };
+export default Enemy;

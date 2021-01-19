@@ -1,6 +1,12 @@
-import { ENEMY_SEQUENCES, SETTINGS, GameManager } from './settings';
-import Enemy from './Enemy';
-import Point from './Point';
+import {
+  ENEMY_SEQUENCES,
+  SETTINGS,
+  GameManager,
+  soundFiles,
+} from '../gameSettings/settings';
+import * as sounds from '../gameSettings/sounds';
+import Enemy from '../Enemy/Enemy';
+import Point from '../Point/Point';
 
 class EnemyCollection {
   constructor(player, bullets, explosions) {
@@ -34,7 +40,7 @@ class EnemyCollection {
   update(dt) {
     this.lastAdded += dt;
     if (
-      this.sequencesDone === false &&
+      !this.sequencesDone &&
       ENEMY_SEQUENCES[this.sequenceIndex].delayBefore < this.lastAdded
     ) {
       this.addEnemy();
@@ -51,13 +57,14 @@ class EnemyCollection {
         for (let b = 0; b < this.bullets.listBullets.length; b++) {
           const bullet = this.bullets.listBullets[b];
           if (
-            bullet.dead === false &&
+            !bullet.dead &&
             bullet.position.y > SETTINGS.bulletTop &&
-            enemy.containingBox.IntersectedBy(bullet.containingBox) === true
+            enemy.containingBox.IntersectedBy(bullet.containingBox)
           ) {
             bullet.kill();
             enemy.lives -= 1;
             if (enemy.lives <= 0) {
+              sounds.playSound(soundFiles.explosion);
               this.player.incrementScore(enemy.score);
               enemy.killMe();
               const centerPoint = enemy.getCenterPoint();

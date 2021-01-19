@@ -1,5 +1,5 @@
-import Point from './Point';
-import Size from './Size';
+import Point from '../Point/Point';
+import Size from '../Size/Size';
 
 class Rect {
   constructor(x, y, width, height) {

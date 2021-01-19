@@ -1,5 +1,5 @@
-import Point from './Point';
-import { GameManager, SETTINGS } from './settings';
+import Point from '../Point/Point';
+import { GameManager, SETTINGS } from '../gameSettings/settings';
 
 class Explosion {
   constructor(asseName) {

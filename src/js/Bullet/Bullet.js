@@ -1,6 +1,6 @@
-import Size from './Size';
-import Sprite from './Sprite';
-import { SETTINGS } from './settings';
+import Size from '../Size/Size';
+import Sprite from '../Sprite/Sprite';
+import { SETTINGS } from '../gameSettings/settings';
 
 class Bullet extends Sprite {
   constructor(divName, assetDesc, position) {

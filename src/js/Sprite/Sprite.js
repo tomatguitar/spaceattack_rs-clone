@@ -1,5 +1,5 @@
-import Point from './Point';
-import Rect from './Rect';
+import Point from '../Point/Point';
+import Rect from '../Rect/Rect';
 
 // anchor - точка привязки спрайта устанавливается по центру
 // **************
