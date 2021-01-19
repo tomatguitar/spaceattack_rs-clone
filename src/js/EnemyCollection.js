@@ -1,8 +1,9 @@
 import { ENEMY_SEQUENCES, SETTINGS, GameManager } from './settings';
 import Enemy from './Enemy';
+import Point from './Point';
 
 class EnemyCollection {
-  constructor(player, bullets) {
+  constructor(player, bullets, explosions) {
     this.listEnemies = [];
     this.lastAdded = 0;
     this.gameOver = false;
@@ -11,6 +12,7 @@ class EnemyCollection {
     this.count = 0;
     this.player = player;
     this.bullets = bullets;
+    this.explosions = explosions;
   }
 
   reset() {
@@ -58,6 +60,10 @@ class EnemyCollection {
             if (enemy.lives <= 0) {
               this.player.incrementScore(enemy.score);
               enemy.killMe();
+              const centerPoint = enemy.getCenterPoint();
+              this.explosions.createExplosion(
+                new Point(centerPoint.x, centerPoint.y)
+              );
             }
           }
         }

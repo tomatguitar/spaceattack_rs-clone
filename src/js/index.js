@@ -3,6 +3,7 @@
 import '../styles/index.scss';
 
 import ship from '../assets/static/images/sship1.png';
+import explosion0 from '../assets/static/images/explosion/explosion00_s.png';
 
 import { imageFiles, GameManager, SETTINGS } from './settings';
 
@@ -21,6 +22,8 @@ import EnemyCollection from './EnemyCollection';
 import { setUpSquences } from './Enemy';
 
 import Arena from './Arena';
+
+import Explosion from './Explosion';
 
 import * as stars from './stars';
 
@@ -167,6 +170,10 @@ function toggleStartPauseMode() {
   }
 }
 
+function resetExplosions() {
+  GameManager.explosions = new Explosion(explosion0);
+}
+
 const resetBullets = () => {
   // если есть Пули
   if (GameManager.bullets !== undefined) {
@@ -183,7 +190,8 @@ const resetEnemies = () => {
   } else {
     GameManager.enemies = new EnemyCollection(
       GameManager.player,
-      GameManager.bullets
+      GameManager.bullets,
+      GameManager.explosions
     );
   }
 };
@@ -220,6 +228,7 @@ const resetGame = () => {
   arena.updatePlayerStartPosition();
   resetPlayer();
   resetBullets();
+  resetExplosions();
   resetEnemies();
   // setTimeout(tick, SETTINGS.targetFPS);
 

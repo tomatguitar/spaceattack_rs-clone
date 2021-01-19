@@ -68,6 +68,13 @@ class Sprite {
     this.containingBox.update(this.position.x, this.position.y);
     this.draw();
   }
+
+  getCenterPoint() {
+    return new Point(
+      this.position.x - this.anchor.x,
+      this.position.y - this.anchor.y
+    );
+  }
 }
 
 export default Sprite;

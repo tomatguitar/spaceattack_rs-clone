@@ -2,7 +2,30 @@ import ship from '../assets/static/images/sship1.png';
 import laser from '../assets/static/images/laser.png';
 import enemy1 from '../assets/static/images/enemy1.png';
 
-const imageFiles = [ship, laser, enemy1];
+import explosion0 from '../assets/static/images/explosion/explosion00_s.png';
+import explosion1 from '../assets/static/images/explosion/explosion01_s.png';
+import explosion2 from '../assets/static/images/explosion/explosion02_s.png';
+import explosion3 from '../assets/static/images/explosion/explosion03_s.png';
+import explosion4 from '../assets/static/images/explosion/explosion04_s.png';
+import explosion5 from '../assets/static/images/explosion/explosion05_s.png';
+import explosion6 from '../assets/static/images/explosion/explosion06_s.png';
+import explosion7 from '../assets/static/images/explosion/explosion07_s.png';
+import explosion8 from '../assets/static/images/explosion/explosion08_s.png';
+
+const imageFiles = [
+  ship,
+  laser,
+  enemy1,
+  explosion0,
+  explosion1,
+  explosion2,
+  explosion3,
+  explosion4,
+  explosion5,
+  explosion6,
+  explosion7,
+  explosion8,
+];
 
 // const arena = document.querySelector('.game__arena');
 // const arenaWidth = parseInt(getComputedStyle(arena).width, 10);
@@ -73,12 +96,14 @@ const SETTINGS = {
   countdownGap: 700,
   countdownValues: ['2', '1', 'GO!'],
   pressSpaceDelay: 3000,
+  explosionTimeout: 1000,
 };
 
 const GameManager = {
   assets: {},
   player: undefined,
   bullets: undefined,
+  explosions: undefined,
   enemies: undefined,
   timeouts: [],
   phase: SETTINGS.GAME_PHASE.gameOver,
