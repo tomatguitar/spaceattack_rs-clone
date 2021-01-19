@@ -94,6 +94,15 @@ module.exports = {
       // Fonts and SVGs: Inline files
       // Шрифты и SVG
       { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: 'asset/inline' },
+      {
+        test: /\.wav$/,
+        use: [
+          {
+            loader: 'file-loader',
+            // include: paths.src
+          },
+        ],
+      },
     ],
   },
 };
