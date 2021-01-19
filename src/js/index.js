@@ -4,8 +4,12 @@ import '../styles/index.scss';
 
 import ship from '../assets/static/images/sship1.png';
 import explosion0 from '../assets/static/images/explosion/explosion00_s.png';
+// import countdown from '../assets/static/sounds/countdown.wav';
+// import go from '../assets/static/sounds/go.wav';
+// import completed from '../assets/static/sounds/completed.wav';
+// import gameOver from '../assets/static/sounds/gameover.wav';
 
-import { imageFiles, GameManager, SETTINGS } from './settings';
+import { imageFiles, GameManager, SETTINGS, soundFiles } from './settings';
 
 // import Size from './Size';
 
@@ -26,6 +30,8 @@ import Arena from './Arena';
 import Explosion from './Explosion';
 
 import * as stars from './stars';
+
+import * as sounds from './sounds';
 
 const arena = new Arena();
 
@@ -95,6 +101,12 @@ function showGameOver() {
   stars.pauseStars();
   clearTimeouts();
 
+  if (GameManager.enemies.gameOver) {
+    sounds.playSound(soundFiles.completed);
+  } else {
+    sounds.playSound(soundFiles.gameOver);
+  }
+
   writeMessage('Game Over');
   setTimeout(() => {
     appendMessage('Press Space To Reset');
@@ -134,9 +146,15 @@ function tick() {
 
 function endCountDown() {
   clearMessages();
+  sounds.playSound(soundFiles.go);
   GameManager.phase = SETTINGS.GAME_PHASE.playing;
   GameManager.lastUpdated = Date.now();
   setTimeout(tick, SETTINGS.targetFPS);
+}
+
+function setCountDownValue(val) {
+  sounds.playSound(soundFiles.countdown);
+  writeMessage(val);
 }
 
 function runCountDown() {
@@ -144,9 +162,10 @@ function runCountDown() {
   stars.createStars();
   GameManager.phase = SETTINGS.GAME_PHASE.countdownToStart;
   writeMessage(3);
+  sounds.playSound(soundFiles.countdown);
   for (let i = 0; i < SETTINGS.countdownValues.length; ++i) {
     setTimeout(
-      writeMessage,
+      setCountDownValue,
       SETTINGS.countdownGap * (i + 1),
       SETTINGS.countdownValues[i]
     );
@@ -275,6 +294,7 @@ const startButton = document.querySelector('.button--start');
 startButton.addEventListener('click', () => toggleStartPauseMode());
 
 document.addEventListener('DOMContentLoaded', () => {
+  sounds.initSounds();
   setUpSquences();
   processAsset(0);
   document.addEventListener('keydown', (e) => keyEventHandler(e));

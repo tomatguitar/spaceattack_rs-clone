@@ -12,6 +12,13 @@ import explosion6 from '../assets/static/images/explosion/explosion06_s.png';
 import explosion7 from '../assets/static/images/explosion/explosion07_s.png';
 import explosion8 from '../assets/static/images/explosion/explosion08_s.png';
 
+import countdown from '../assets/static/sounds/countdown.wav';
+import explosion from '../assets/static/sounds/explosion.wav';
+import go from '../assets/static/sounds/go.wav';
+import loseLife from '../assets/static/sounds/loselife.wav';
+import gameOver from '../assets/static/sounds/gameover.wav';
+import completed from '../assets/static/sounds/completed.wav';
+
 const imageFiles = [
   ship,
   laser,
@@ -26,6 +33,15 @@ const imageFiles = [
   explosion7,
   explosion8,
 ];
+
+const soundFiles = {
+  countdown: countdown,
+  explosion: explosion,
+  go: go,
+  loseLife: loseLife,
+  gameOver: gameOver,
+  completed: completed,
+};
 
 // const arena = document.querySelector('.game__arena');
 // const arenaWidth = parseInt(getComputedStyle(arena).width, 10);
@@ -105,6 +121,7 @@ const GameManager = {
   bullets: undefined,
   explosions: undefined,
   enemies: undefined,
+  sounds: {},
   timeouts: [],
   phase: SETTINGS.GAME_PHASE.gameOver,
   keys: {},
@@ -158,4 +175,11 @@ const WAYPOINTS = {
 
 const ENEMY_SEQUENCES = [];
 
-export { GameManager, imageFiles, SETTINGS, WAYPOINTS, ENEMY_SEQUENCES };
+export {
+  GameManager,
+  imageFiles,
+  soundFiles,
+  SETTINGS,
+  WAYPOINTS,
+  ENEMY_SEQUENCES,
+};
