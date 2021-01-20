@@ -15,6 +15,10 @@
   width: 100%;
 }
 
+.button--language,
+.button--sounds {
+}
+
 .button:hover {
   color: red;
 
@@ -24,6 +28,12 @@
 }
 
 .button:active {
+  color: black;
+
+  background: green;
+}
+
+.button--active {
   color: black;
 
   background: green;
