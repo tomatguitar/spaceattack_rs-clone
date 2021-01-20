@@ -1,5 +1,6 @@
 import { SETTINGS, soundFiles } from '../gameSettings/settings';
 import * as sounds from '../soundManage/sounds';
+import glowCounter from '../animations/counterAnimation';
 import Size from '../Size/Size';
 import Sprite from '../Sprite/Sprite';
 
@@ -107,11 +108,13 @@ class Player extends Sprite {
   setLives() {
     const lives = document.querySelector('.counter--lives');
     lives.textContent = this.lives;
+    glowCounter(lives);
   }
 
   setScore() {
     const score = document.querySelector('.counter--total');
     score.textContent = this.score;
+    glowCounter(score);
   }
 
   setHighScore() {
@@ -120,6 +123,7 @@ class Player extends Sprite {
     }
     const bestScore = document.querySelector('.counter--best');
     bestScore.textContent = this.highScore;
+    glowCounter(bestScore);
   }
 }
 
