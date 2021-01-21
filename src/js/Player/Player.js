@@ -15,6 +15,7 @@ class Player extends Sprite {
     this.lives = SETTINGS.PLAYER.startLives;
     this.score = 0;
     this.highScore = 0;
+    this.destroyed = 0;
     this.hit = false;
     this.lastFlash = 0;
     this.numFlashes = 0;
@@ -90,6 +91,7 @@ class Player extends Sprite {
     this.numFlashes = 0;
     this.lives = SETTINGS.PLAYER.startLives;
     this.setLives();
+    this.setDestroyed();
     this.setScore();
     this.setHighScore();
     this.setPosition(
@@ -99,10 +101,21 @@ class Player extends Sprite {
     );
   }
 
+  incrementDestroyed() {
+    this.destroyed += 1;
+    this.setDestroyed();
+  }
+
   incrementScore(amount) {
     this.score += amount;
     this.setScore();
     this.setHighScore();
+  }
+
+  setDestroyed() {
+    const destroyed = document.querySelector('.counter--destroyed');
+    destroyed.textContent = this.destroyed;
+    glowCounter(destroyed);
   }
 
   setLives() {

@@ -66,6 +66,7 @@ class EnemyCollection {
             if (enemy.lives <= 0) {
               sounds.playSound(soundFiles.explosion);
               this.player.incrementScore(enemy.score);
+              this.player.incrementDestroyed();
               enemy.killMe();
               const centerPoint = enemy.getCenterPoint();
               this.explosions.createExplosion(
