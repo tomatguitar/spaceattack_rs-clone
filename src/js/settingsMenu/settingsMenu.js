@@ -16,9 +16,10 @@ function closeSettingsMenu(el) {
   }
 }
 
-function saveSettings(content, lang) {
+function saveSettings(lang) {
   storage.set('language', lang);
-  layout.updateContentValue(content, lang);
+  layout.updateContentList();
+  layout.updateContentValue(layout.content, lang);
 }
 
 // function saveSettings(state) {}

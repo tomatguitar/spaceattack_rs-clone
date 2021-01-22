@@ -39,6 +39,8 @@ const langData = {
         'game-over': 'Game Over',
         victory: 'Victory!',
         pause: 'Game paused',
+        reset: 'Press Start to start new game',
+        go: 'Go!',
       },
     },
     ru: {
@@ -80,6 +82,8 @@ const langData = {
         'game-over': 'Конец игры',
         victory: 'Победа!',
         pause: 'Игра приостановлена',
+        reset: 'Нажмите Старт для новой игры',
+        go: 'Начали!',
       },
     },
     ukr: {
@@ -121,6 +125,8 @@ const langData = {
         'game-over': 'Кінець гри',
         victory: 'Перемога!',
         pause: 'Гра призупинена',
+        reset: 'Натисніть Старт для нової гри',
+        go: 'Почали!',
       },
     },
   },

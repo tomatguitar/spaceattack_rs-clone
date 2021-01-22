@@ -38,6 +38,8 @@ import * as menu from './settingsMenu/settingsMenu';
 
 import * as layout from './layouts/layoutManager';
 
+import langData from './layouts/langData';
+
 const arena = new Arena();
 
 const k = GameManager.keys;
@@ -75,11 +77,18 @@ const onKeyDown = () => {
   }
 };
 
-function appendMessage(text) {
+function appendMessage(dataKey) {
   const mContainer = document.querySelector('.message-container');
   const message = document.createElement('div');
   message.classList.add('message');
-  message.textContent = text;
+  if (Number.isInteger(dataKey)) {
+    message.textContent = dataKey;
+  } else if (dataKey === 'Go!') {
+    message.textContent = langData.languages[GameManager.language].messages.go;
+  } else {
+    message.dataset.key = dataKey;
+    layout.updateContentValue(message, GameManager.language);
+  }
   mContainer.append(message);
 }
 
@@ -88,9 +97,9 @@ function clearMessages() {
   mContainer.innerHTML = '';
 }
 
-function writeMessage(text) {
+function writeMessage(dataKey) {
   clearMessages();
-  appendMessage(text);
+  appendMessage(dataKey);
 }
 
 function clearTimeouts() {
@@ -112,9 +121,9 @@ function showGameOver() {
     sounds.playSound(soundFiles.gameOver);
   }
 
-  writeMessage('Game Over');
+  writeMessage('game-over');
   setTimeout(() => {
-    appendMessage('Press Space To Reset');
+    appendMessage('reset');
   }, SETTINGS.pressSpaceDelay);
 }
 
@@ -158,8 +167,12 @@ function endCountDown() {
 }
 
 function setCountDownValue(val) {
+  let valNum = val;
+  if (val !== 'Go!') {
+    valNum = parseInt(val, 10);
+  }
   sounds.playSound(soundFiles.countdown);
-  writeMessage(val);
+  writeMessage(valNum);
 }
 
 function runCountDown() {
@@ -187,7 +200,7 @@ function toggleStartPauseMode() {
   }
   if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
     GameManager.phase = SETTINGS.GAME_PHASE.paused;
-    writeMessage('Game paused');
+    writeMessage('pause');
   } else if (GameManager.phase === SETTINGS.GAME_PHASE.paused) {
     clearMessages();
     runCountDown();
@@ -260,7 +273,7 @@ const resetGame = () => {
   GameManager.lastUpdated = Date.now();
   GameManager.elapsedTime = 0;
 
-  writeMessage('Press Start button');
+  writeMessage('start');
 };
 
 const processAsset = (indexNum) => {
@@ -300,7 +313,7 @@ const startButton = document.querySelector('.button--start');
 startButton.addEventListener('click', () => toggleStartPauseMode());
 
 //! ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА (ВЫНЕСТИ В layoutManager после того, как все заработает)
-const content = document.querySelectorAll('[data-key]');
+// const content = document.querySelectorAll('[data-key]');
 const parent = document.querySelector('.settings-menu__button-wrapper');
 const btns = parent.querySelectorAll('.button--language');
 
@@ -327,12 +340,27 @@ settingsMenuCloseBtn.addEventListener('click', () =>
 const settingsMenuSaveBtn = document.querySelector('.button--save');
 
 settingsMenuSaveBtn.addEventListener('click', () =>
-  menu.saveSettings(content, GameManager.language)
+  menu.saveSettings(GameManager.language)
 );
 //! СОХРАНЕНИЕ НАСТРОЕК ИГРЫ \\
 
+// const dataKeyArr = (obj, results = []) => {
+//   const res = results;
+//   Object.keys(obj).forEach((key) => {
+//     const value = obj[key];
+//     if (typeof value !== 'object') {
+//       res.push(key);
+//     } else if (typeof value === 'object') {
+//       dataKeyArr(value, res);
+//     }
+//   });
+//   return res;
+// };
+// // eslint-disable-next-line no-console
+// console.log(dataKeyArr(langData.languages.en));
+
 document.addEventListener('DOMContentLoaded', () => {
-  layout.setLanguage(content, btns);
+  layout.setLanguage(btns);
   sounds.initSounds();
   setUpSquences();
   processAsset(0);

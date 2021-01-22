@@ -4,6 +4,35 @@ import { GameManager, SETTINGS } from '../gameSettings/settings';
 
 import * as storage from '../utils/storage';
 
+const content = [];
+
+const setDataKeyArr = (obj, results = []) => {
+  const res = results;
+  Object.keys(obj).forEach((key) => {
+    const value = obj[key];
+    if (typeof value !== 'object') {
+      res.push(key);
+    } else if (typeof value === 'object') {
+      setDataKeyArr(value, res);
+    }
+  });
+  return res;
+};
+// eslint-disable-next-line no-console
+console.log(setDataKeyArr(langData.languages.en));
+
+const updateContentList = () => {
+  const elArr = setDataKeyArr(langData.languages.en);
+  elArr.forEach((el) => {
+    const elem = el;
+    const selector = document.querySelector(`[data-key=${elem}]`);
+    if (selector !== null) {
+      content.push(selector);
+    }
+  });
+  return content;
+};
+
 function toggleButtonClass(trgt, btns) {
   // Проверяем тот ли это элемент который нам нужен
   if (trgt.classList.contains('button--language')) {
@@ -17,28 +46,38 @@ function toggleButtonClass(trgt, btns) {
 }
 
 const recursiveSearch = (obj, searchKey, results = []) => {
-  const r = results;
+  const res = results;
   Object.keys(obj).forEach((key) => {
     const value = obj[key];
     if (key === searchKey && typeof value !== 'object') {
-      r.push(value);
+      res.push(value);
     } else if (typeof value === 'object') {
-      recursiveSearch(value, searchKey, r);
+      recursiveSearch(value, searchKey, res);
     }
   });
-  return r;
+  return res;
 };
 
 function updateContentValue(container, currentLang) {
-  container.forEach((el) => {
-    const elem = el;
-    const elemKey = el.getAttribute('data-key');
+  if (!Array.isArray(container) && !(container instanceof NodeList)) {
+    const elem = container;
+    const elemKey = elem.getAttribute('data-key');
     const contentValue = recursiveSearch(
       langData.languages[currentLang],
       elemKey
     );
     elem.textContent = contentValue;
-  });
+  } else {
+    container.forEach((el) => {
+      const elem = el;
+      const elemKey = el.getAttribute('data-key');
+      const contentValue = recursiveSearch(
+        langData.languages[currentLang],
+        elemKey
+      );
+      elem.textContent = contentValue;
+    });
+  }
 }
 
 function chooseLanguage(event, btns) {
@@ -49,7 +88,7 @@ function chooseLanguage(event, btns) {
   toggleButtonClass(trgt, btns);
 }
 
-function setLanguage(container, btns) {
+function setLanguage(btns) {
   let lang = '';
   if (storage.get('language') !== null) {
     lang = storage.get('language');
@@ -64,7 +103,14 @@ function setLanguage(container, btns) {
       btns[i].classList.add('button--active');
     }
   }
-  updateContentValue(container, GameManager.language);
+  updateContentList();
+  updateContentValue(content, GameManager.language);
 }
 
-export { setLanguage, chooseLanguage, updateContentValue };
+export {
+  setLanguage,
+  chooseLanguage,
+  updateContentValue,
+  updateContentList,
+  content,
+};
