@@ -120,6 +120,7 @@ const SETTINGS = {
   countdownValues: ['2', '1', 'GO!'],
   pressSpaceDelay: 3000,
   explosionTimeout: 1000,
+  gameLanguage: 'en',
 };
 
 const GameManager = {

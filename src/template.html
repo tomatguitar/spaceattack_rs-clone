@@ -11,33 +11,38 @@
     <div class="game">
       <header class="game__header">
         <div class="game__scores">
-          <span class="score score--total"
-            >Total: <b class="counter counter--total">1000</b></span
-          >
-          <span class="score score--best"
-            >Best: <b class="counter counter--best">1000</b></span
-          >
+          <div class="score-container">
+            <span class="score score--total" data-key="score-total"></span>
+            <b class="counter counter--total"></b>
+          </div>
+          <div class="score-container">
+            <span class="score score--best" data-key="score-best"></span>
+            <b class="counter counter--best"></b>
+          </div>
         </div>
         <div class="game__stats">
-          <span class="stat stat--lives"
-            >Lives: <b class="counter counter--lives">0</b></span
-          >
-          <span class="stat stat--hp">
-            HP: <b class="counter counter--hp">100</b></span
-          >
-          <span class="stat stat--destroyed">
-            Destroyed: <b class="counter counter--destroyed">100</b></span
-          >
+          <div class="stats-container">
+            <span class="stat stat--lives" data-key="lives"></span>
+            <b class="counter counter--lives"></b>
+          </div>
+          <div class="stats-container">
+            <span class="stat stat--destroyed" data-key="destroyed"></span>
+            <b class="counter counter--destroyed"></b>
+          </div>
+          <div class="stats-container">
+            <span class="stat stat--waves" data-key="waves"></span>
+            <b class="counter counter--waves">0/0</b>
+          </div>
         </div>
         <div class="buttons-wrapper">
           <div class="game__buttons">
-            <button class="button button--start">New Game(Start/Pause)</button>
+            <button class="button button--start" data-key="start-pause"></button>
           </div>
           <div class="game__buttons">
-            <button class="button buttons--load">Load</button>
-            <button class="button buttons--save">Save</button>
-            <button class="button buttons--settings">Settings</button>
-            <button class="button buttons--about">About</button>
+            <button class="button button--load-progress" data-key="load"></button>
+            <button class="button button--save-progress" data-key="save"></button>
+            <button class="button button--settings" data-key="settings"></button>
+            <button class="button button--about" data-key="about"></button>
           </div>
         </div>
 
@@ -53,32 +58,32 @@
           <!-- <div class="message">Game Over</div>
           <div class="message">Press Space to Continue</div> -->
         </div>
-        <div class="settings">
-          <h3 class="settings__title">Settings</h3>
-          <ul class="settings__list">
-            <li class="settings__item">
-              <h4 class="settings__subtitle">Choose language</h4>
-              <div class="settings__button-wrapper">
-                <button class="button button--language button--active">En</button>
-                <button class="button button--language">Ru</button>
-                <button class="button button--language">Ukr</button>
+        <div class="settings-menu">
+          <h3 class="settings-menu__title" data-key = "title">Settings</h3>
+          <ul class="settings-menu__list">
+            <li class="settings-menu__item">
+              <h4 class="settings-menu__subtitle" data-key = "s-lang">Choose language</h4>
+              <div class="settings-menu__button-wrapper">
+                <button class="button button--language" data-key = "btn-en">En</button>
+                <button class="button button--language" data-key = "btn-ru">Ru</button>
+                <button class="button button--language" data-key = "btn-ukr">Ukr</button>
               </div>
             </li>
-            <li class="settings__item">
-              <h4 class="settings__subtitle">Turn sounds</h4>
-              <div class="settings__button-wrapper">
-                <button class="button button--sounds button--active">On</button>
-                <button class="button button--sounds">Off</button>
+            <li class="settings-menu__item">
+              <h4 class="settings-menu__subtitle" data-key = "s-sound">Turn sounds</h4>
+              <div class="settings-menu__button-wrapper">
+                <button class="button button--sounds button--active" data-key = "btn-sound-on">On</button>
+                <button class="button button--sounds" data-key = "btn-sound-off">Off</button>
               </div>
             </li>
-            <li class="settings__item">
-              <h4 class="settings__subtitle">Sound volume</h4>
+            <li class="settings-menu__item">
+              <h4 class="settings-menu__subtitle" data-key = "s-vol">Sound volume</h4>
               <input class="range range--volume" type="range" name="volume" min="0" max="1.0" value="0.5" step="0.1">
             </li>
           </ul>
-          <div class="settings__button-wrapper">
-            <button class="button button--save">Save</button>
-            <button class="button button--close">Close</button>
+          <div class="settings-menu__button-wrapper">
+            <button class="button button--save" data-key = "btn-save">Save</button>
+            <button class="button button--close" data-key = "btn-close">Close</button>
           </div>
         </div>
       </div>

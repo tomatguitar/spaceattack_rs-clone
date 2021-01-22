@@ -34,6 +34,10 @@ import * as stars from './animations/stars';
 
 import * as sounds from './soundManage/sounds';
 
+import * as menu from './settingsMenu/settingsMenu';
+
+import * as layout from './layouts/layoutManager';
+
 const arena = new Arena();
 
 const k = GameManager.keys;
@@ -43,31 +47,31 @@ const onKeyDown = () => {
     // двигаться влево
     GameManager.player.move(-1, 0);
     // eslint-disable-next-line no-console
-    console.log('Влево', GameManager.player.position);
+    // console.log('Влево', GameManager.player.position);
   }
   if (k.ArrowRight) {
     // двигаться вправо
     GameManager.player.move(1, 0);
     // eslint-disable-next-line no-console
-    console.log('Вправо', GameManager.player.position);
+    // console.log('Вправо', GameManager.player.position);
   }
   if (k.ArrowDown) {
     // двигаться вниз
     GameManager.player.move(0, 1);
     // eslint-disable-next-line no-console
-    console.log('Вниз', GameManager.player.position);
+    // console.log('Вниз', GameManager.player.position);
   }
   if (k.ArrowUp) {
     // двигаться вверх
     GameManager.player.move(0, -1);
     // eslint-disable-next-line no-console
-    console.log('Вверх', GameManager.player.position);
+    // console.log('Вверх', GameManager.player.position);
   }
   if (k.Space) {
     // нажимаем Space
     SETTINGS.fire = true;
     // eslint-disable-next-line no-console
-    console.log('PEW!', GameManager.player.position);
+    // console.log('PEW!', GameManager.player.position);
   }
 };
 
@@ -295,7 +299,40 @@ const keyEventHandler = (e) => {
 const startButton = document.querySelector('.button--start');
 startButton.addEventListener('click', () => toggleStartPauseMode());
 
+//! ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА (ВЫНЕСТИ В layoutManager после того, как все заработает)
+const content = document.querySelectorAll('[data-key]');
+const parent = document.querySelector('.settings-menu__button-wrapper');
+const btns = parent.querySelectorAll('.button--language');
+
+parent.addEventListener('click', (event) => {
+  layout.chooseLanguage(event, btns);
+});
+
+//! ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА \\
+
+//! ПОЯВЛЕНИЕ/ЗАКРЫТИЕ  МЕНЮ НАСТРОЕК
+const settingsBtn = document.querySelector('.button--settings');
+const settingsMenu = document.querySelector('.settings-menu');
+const settingsMenuCloseBtn = document.querySelector('.button--close');
+
+settingsBtn.addEventListener('click', () =>
+  menu.showSettingsMenu(settingsMenu)
+);
+settingsMenuCloseBtn.addEventListener('click', () =>
+  menu.closeSettingsMenu(settingsMenu)
+);
+//! ПОЯВЛЕНИЕ/ЗАКРЫТИЕ  МЕНЮ НАСТРОЕК \\
+
+//! СОХРАНЕНИЕ НАСТРОЕК ИГРЫ
+const settingsMenuSaveBtn = document.querySelector('.button--save');
+
+settingsMenuSaveBtn.addEventListener('click', () =>
+  menu.saveSettings(content, GameManager.language)
+);
+//! СОХРАНЕНИЕ НАСТРОЕК ИГРЫ \\
+
 document.addEventListener('DOMContentLoaded', () => {
+  layout.setLanguage(content, btns);
   sounds.initSounds();
   setUpSquences();
   processAsset(0);
