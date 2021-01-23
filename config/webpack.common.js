@@ -95,7 +95,7 @@ module.exports = {
       // Шрифты и SVG
       { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: 'asset/inline' },
       {
-        test: /\.wav$/,
+        test: /\.(wav|mp3|ogg)$/,
         use: [
           {
             loader: 'file-loader',
