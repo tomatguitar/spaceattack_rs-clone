@@ -2,9 +2,10 @@ import {
   ENEMY_SEQUENCES,
   SETTINGS,
   GameManager,
+  SoundManager,
   soundFiles,
 } from '../gameSettings/settings';
-import * as sounds from '../soundManage/sounds';
+import sound from '../soundManage/Sound';
 import Enemy from '../Enemy/Enemy';
 import Point from '../Point/Point';
 
@@ -64,7 +65,7 @@ class EnemyCollection {
             bullet.kill();
             enemy.lives -= 1;
             if (enemy.lives <= 0) {
-              sounds.playSound(soundFiles.explosion);
+              sound.playSound(soundFiles.explosion);
               this.player.incrementScore(enemy.score);
               this.player.incrementDestroyed();
               enemy.killMe();

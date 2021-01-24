@@ -1,5 +1,5 @@
 import { SETTINGS, soundFiles } from '../gameSettings/settings';
-import * as sounds from '../soundManage/sounds';
+import sound from '../soundManage/Sound';
 import glowCounter from '../animations/counterAnimation';
 import Size from '../Size/Size';
 import Sprite from '../Sprite/Sprite';
@@ -74,7 +74,7 @@ class Player extends Sprite {
       this.numFlashes = 0;
       this.lives -= 1;
       this.setLives();
-      sounds.playSound(soundFiles.loseLife);
+      sound.playSound(soundFiles.loseLife);
       // eslint-disable-next-line no-console
       console.log('Попадание по игроку!');
       if (this.lives > 0) {

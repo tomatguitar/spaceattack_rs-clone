@@ -9,6 +9,7 @@ import {
   imageFiles,
   GameManager,
   SETTINGS,
+  SoundManager,
   soundFiles,
 } from './gameSettings/settings';
 
@@ -32,7 +33,7 @@ import Explosion from './Explosion/Explosion';
 
 import * as stars from './animations/stars';
 
-import * as sounds from './soundManage/sounds';
+import sound from './soundManage/Sound';
 
 import * as menu from './settingsMenu/settingsMenu';
 
@@ -116,9 +117,9 @@ function showGameOver() {
   clearTimeouts();
 
   if (GameManager.enemies.gameOver) {
-    sounds.playSound(soundFiles.completed);
+    sound.playSound(soundFiles.completed);
   } else {
-    sounds.playSound(soundFiles.gameOver);
+    sound.playSound(soundFiles.gameOver);
   }
 
   writeMessage('game-over');
@@ -132,10 +133,8 @@ function tick() {
   if (GameManager.phase !== SETTINGS.GAME_PHASE.paused) {
     const now = Date.now();
     const dt = now - GameManager.lastUpdated;
-    // const fpsBox = document.querySelector('.counter--fps');
     GameManager.lastUpdated = now;
     GameManager.fps = parseInt(1000 / dt, 10);
-    // fpsBox.textContent = `FPS: ${parseInt(GameManager.fps, 10)}`;
     onKeyDown();
     // появляются противники
     GameManager.enemies.update(dt);
@@ -160,7 +159,7 @@ function tick() {
 
 function endCountDown() {
   clearMessages();
-  sounds.playSound(soundFiles.go);
+  sound.playSound(soundFiles.go);
   GameManager.phase = SETTINGS.GAME_PHASE.playing;
   GameManager.lastUpdated = Date.now();
   setTimeout(tick, SETTINGS.targetFPS);
@@ -171,7 +170,7 @@ function setCountDownValue(val) {
   if (val !== 'Go!') {
     valNum = parseInt(val, 10);
   }
-  sounds.playSound(soundFiles.countdown);
+  sound.playSound(soundFiles.countdown);
   writeMessage(valNum);
 }
 
@@ -180,7 +179,7 @@ function runCountDown() {
   stars.createStars();
   GameManager.phase = SETTINGS.GAME_PHASE.countdownToStart;
   writeMessage(3);
-  sounds.playSound(soundFiles.countdown);
+  sound.playSound(soundFiles.countdown);
   for (let i = 0; i < SETTINGS.countdownValues.length; ++i) {
     setTimeout(
       setCountDownValue,
@@ -267,12 +266,10 @@ const resetGame = () => {
   resetBullets();
   resetExplosions();
   resetEnemies();
-  // setTimeout(tick, SETTINGS.targetFPS);
 
   GameManager.phase = SETTINGS.GAME_PHASE.readyToplay;
   GameManager.lastUpdated = Date.now();
   GameManager.elapsedTime = 0;
-
   writeMessage('start');
 };
 
@@ -328,12 +325,15 @@ const settingsBtn = document.querySelector('.button--settings');
 const settingsMenu = document.querySelector('.settings-menu');
 const settingsMenuCloseBtn = document.querySelector('.button--close');
 
-settingsBtn.addEventListener('click', () =>
-  menu.showSettingsMenu(settingsMenu)
-);
-settingsMenuCloseBtn.addEventListener('click', () =>
-  menu.closeSettingsMenu(settingsMenu)
-);
+settingsBtn.addEventListener('click', () => {
+  SoundManager.context.resume();
+  sound.playSound(soundFiles.go);
+  menu.showSettingsMenu(settingsMenu);
+});
+
+settingsMenuCloseBtn.addEventListener('click', () => {
+  menu.closeSettingsMenu(settingsMenu);
+});
 //! ПОЯВЛЕНИЕ/ЗАКРЫТИЕ  МЕНЮ НАСТРОЕК \\
 
 //! СОХРАНЕНИЕ НАСТРОЕК ИГРЫ
@@ -344,24 +344,22 @@ settingsMenuSaveBtn.addEventListener('click', () =>
 );
 //! СОХРАНЕНИЕ НАСТРОЕК ИГРЫ \\
 
-// const dataKeyArr = (obj, results = []) => {
-//   const res = results;
-//   Object.keys(obj).forEach((key) => {
-//     const value = obj[key];
-//     if (typeof value !== 'object') {
-//       res.push(key);
-//     } else if (typeof value === 'object') {
-//       dataKeyArr(value, res);
-//     }
-//   });
-//   return res;
-// };
-// // eslint-disable-next-line no-console
-// console.log(dataKeyArr(langData.languages.en));
-
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
+  // preloader
+  const preloader = document.querySelector('.preloader');
+  preloader.style.display = 'none';
   layout.setLanguage(btns);
-  sounds.initSounds();
+  sound.init();
+  if (SoundManager.context.state === 'suspended') {
+    SoundManager.context.resume().then(() => {
+      SoundManager.startScreen.start();
+    });
+  }
+  // SoundManager.context.resume().then(() => {
+  //   sound.playSound('startScreenMusic');
+  //   // eslint-disable-next-line no-console
+  //   console.log('Playback resumed successfully');
+  // });
   setUpSquences();
   processAsset(0);
   document.addEventListener('keydown', (e) => keyEventHandler(e));

@@ -23,6 +23,10 @@ import go from '../../assets/static/sounds/go.wav';
 import loseLife from '../../assets/static/sounds/loselife.wav';
 import gameOver from '../../assets/static/sounds/gameover.wav';
 import completed from '../../assets/static/sounds/completed.wav';
+import shot from '../../assets/static/sounds/shot.wav';
+import startScreenMusic from '../../assets/static/sounds/startScreenMusic.ogg';
+import level1Music from '../../assets/static/sounds/level1.ogg';
+import clickButton from '../../assets/static/sounds/clickButtonSound.ogg';
 
 const imageFiles = {
   player: ship,
@@ -42,12 +46,39 @@ const imageFiles = {
 };
 
 const soundFiles = {
+  startScreenMusic: startScreenMusic,
+  level1Music: level1Music,
   countdown: countdown,
   explosion: explosion,
   go: go,
   loseLife: loseLife,
   gameOver: gameOver,
   completed: completed,
+  shot: shot,
+  clickButton: clickButton,
+};
+
+// const soundFiles = [
+//   startScreenMusic,
+//   level1Music,
+//   countdown,
+//   explosion,
+//   go,
+//   loseLife,
+//   gameOver,
+//   completed,
+//   shot,
+// ];
+
+const SoundManager = {
+  startScreen: null,
+  gainNodeStartScreen: null,
+  game: null,
+  gainNodeGame: null,
+  context: null,
+  bufferLoader: null,
+  bufferList: [],
+  sounds: [],
 };
 
 // const arena = document.querySelector('.game__arena');
@@ -130,7 +161,6 @@ const GameManager = {
   explosions: undefined,
   enemies: undefined,
   language: '',
-  sounds: {},
   timeouts: [],
   phase: SETTINGS.GAME_PHASE.gameOver,
   keys: {},
@@ -758,6 +788,7 @@ const ENEMY_SEQUENCES = [];
 
 export {
   GameManager,
+  SoundManager,
   imageFiles,
   soundFiles,
   SETTINGS,

@@ -1,7 +1,8 @@
-import { SETTINGS, GameManager } from '../gameSettings/settings';
+import { SETTINGS, GameManager, soundFiles } from '../gameSettings/settings';
 import laser from '../../assets/static/images/laser.png';
 import Bullet from '../Bullet/Bullet';
 import Point from '../Point/Point';
+import sound from '../soundManage/Sound';
 
 class BulletCollection {
   constructor(player) {
@@ -55,6 +56,7 @@ class BulletCollection {
             )
           )
         );
+        sound.playSound(soundFiles.shot);
         this.total_bullets += 1;
         SETTINGS.fire = false;
       }
