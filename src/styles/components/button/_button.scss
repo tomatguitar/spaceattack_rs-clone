@@ -19,12 +19,30 @@
 .button--sounds {
 }
 
+.button--init {
+  padding: 2rem 5rem;
+
+  box-shadow: 0px 0px 0px 0px rgba(255, 255, 0, 1);
+
+  transition: 1s box-shadow;
+
+  animation: glow 1s linear infinite;
+}
+
 .button:hover {
   color: red;
 
   background: yellow;
 
   transition: 0.5s background;
+}
+
+.button--init:hover {
+  background: transparent;
+  box-shadow: 0px 0px 10px 0px rgba(255, 255, 0, 1);
+
+  transition: 0.5s box-shadow;
+  animation-play-state: paused;
 }
 
 .button:active {
@@ -37,4 +55,13 @@
   color: black;
 
   background: green;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0px 0px 0px 0px rgba(255, 255, 0, 1);
+  }
+  to {
+    text-shadow: 0px 0px 10px 0px rgba(255, 255, 0, 1);
+  }
 }

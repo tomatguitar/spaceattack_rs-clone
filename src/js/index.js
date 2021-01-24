@@ -306,8 +306,28 @@ const keyEventHandler = (e) => {
   k[e.code] = e.type === 'keydown';
 };
 
+//! ПЕРЕКЛЮЧЕНИЕ СТАРТА/ПАУЗЫ ИГРЫ \\
 const startButton = document.querySelector('.button--start');
 startButton.addEventListener('click', () => toggleStartPauseMode());
+
+//! ПОКАЗАТЬ НАЧАЛЬНЫЙ ЭКРАН \\
+
+//! ПОКАЗАТЬ НАЧАЛЬНЫЙ ЭКРАН
+function initStartScreen() {
+  const game = document.querySelector('.game');
+  const startScreen = document.querySelector('.start-screen');
+  const btn = document.querySelector('.button--init');
+  btn.addEventListener('click', () => {
+    if (SoundManager.context.state === 'suspended') {
+      SoundManager.context.resume().then(() => {
+        SoundManager.startScreen.start();
+      });
+    }
+    startScreen.style.display = 'none';
+    game.style.display = 'flex';
+  });
+}
+//! ПЕРЕКЛЮЧЕНИЕ СТАРТА/ПАУЗЫ ИГРЫ \\
 
 //! ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА (ВЫНЕСТИ В layoutManager после того, как все заработает)
 // const content = document.querySelectorAll('[data-key]');
@@ -348,18 +368,14 @@ window.addEventListener('load', () => {
   // preloader
   const preloader = document.querySelector('.preloader');
   preloader.style.display = 'none';
+  initStartScreen();
   layout.setLanguage(btns);
   sound.init();
-  if (SoundManager.context.state === 'suspended') {
-    SoundManager.context.resume().then(() => {
-      SoundManager.startScreen.start();
-    });
-  }
-  // SoundManager.context.resume().then(() => {
-  //   sound.playSound('startScreenMusic');
-  //   // eslint-disable-next-line no-console
-  //   console.log('Playback resumed successfully');
-  // });
+  // if (SoundManager.context.state === 'suspended') {
+  //   SoundManager.context.resume().then(() => {
+  //     SoundManager.startScreen.start();
+  //   });
+  // }
   setUpSquences();
   processAsset(0);
   document.addEventListener('keydown', (e) => keyEventHandler(e));
