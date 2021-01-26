@@ -2,7 +2,6 @@ import {
   ENEMY_SEQUENCES,
   SETTINGS,
   GameManager,
-  SoundManager,
   soundFiles,
 } from '../gameSettings/settings';
 import sound from '../soundManage/Sound';
