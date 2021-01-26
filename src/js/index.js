@@ -35,15 +35,28 @@ import * as stars from './animations/stars';
 
 import sound from './soundManage/Sound';
 
-import * as menu from './settingsMenu/settingsMenu';
+// import settingsMenu from './settingsMenu/settingsMenu';
 
-import * as layout from './layouts/layoutManager';
+import Layout from './Layout/Layout';
 
-import langData from './layouts/langData';
+import langData from './langData/langData';
+
+import Menu from './Menu/Menu';
+
+import SettingsMenu from './SettingsMenu/SettingsMenu';
+
+const k = GameManager.keys;
 
 const arena = new Arena();
 
-const k = GameManager.keys;
+const parentMenu = document.querySelector('.game__buttons--second-row');
+const parentSettingsMenu = document.querySelectorAll(
+  '.settings-menu__button-wrapper'
+);
+const layout = new Layout();
+
+const menu = new Menu(parentMenu);
+const settingsMenu = new SettingsMenu(parentSettingsMenu, layout);
 
 const onKeyDown = () => {
   if (k.ArrowLeft) {
@@ -309,10 +322,10 @@ const keyEventHandler = (e) => {
 //! ПЕРЕКЛЮЧЕНИЕ СТАРТА/ПАУЗЫ ИГРЫ \\
 const startButton = document.querySelector('.button--start');
 startButton.addEventListener('click', () => toggleStartPauseMode());
+//! ПЕРЕКЛЮЧЕНИЕ СТАРТА/ПАУЗЫ ИГРЫ \\
 
 //! ПОКАЗАТЬ НАЧАЛЬНЫЙ ЭКРАН \\
 
-//! ПОКАЗАТЬ НАЧАЛЬНЫЙ ЭКРАН
 function initStartScreen() {
   const game = document.querySelector('.game');
   const startScreen = document.querySelector('.start-screen');
@@ -324,60 +337,23 @@ function initStartScreen() {
       });
     }
     startScreen.style.display = 'none';
-    game.style.display = 'flex';
+    game.style.visibility = 'visible';
   });
 }
-//! ПЕРЕКЛЮЧЕНИЕ СТАРТА/ПАУЗЫ ИГРЫ \\
 
-//! ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА (ВЫНЕСТИ В layoutManager после того, как все заработает)
-// const content = document.querySelectorAll('[data-key]');
-const parent = document.querySelector('.settings-menu__button-wrapper');
-const btns = parent.querySelectorAll('.button--language');
-
-parent.addEventListener('click', (event) => {
-  layout.chooseLanguage(event, btns);
-});
-
-//! ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА \\
-
-//! ПОЯВЛЕНИЕ/ЗАКРЫТИЕ  МЕНЮ НАСТРОЕК
-const settingsBtn = document.querySelector('.button--settings');
-const settingsMenu = document.querySelector('.settings-menu');
-const settingsMenuCloseBtn = document.querySelector('.button--close');
-
-settingsBtn.addEventListener('click', () => {
-  SoundManager.context.resume();
-  sound.playSound(soundFiles.go);
-  menu.showSettingsMenu(settingsMenu);
-});
-
-settingsMenuCloseBtn.addEventListener('click', () => {
-  menu.closeSettingsMenu(settingsMenu);
-});
-//! ПОЯВЛЕНИЕ/ЗАКРЫТИЕ  МЕНЮ НАСТРОЕК \\
-
-//! СОХРАНЕНИЕ НАСТРОЕК ИГРЫ
-const settingsMenuSaveBtn = document.querySelector('.button--save');
-
-settingsMenuSaveBtn.addEventListener('click', () =>
-  menu.saveSettings(GameManager.language)
-);
-//! СОХРАНЕНИЕ НАСТРОЕК ИГРЫ \\
+//! ПОКАЗАТЬ НАЧАЛЬНЫЙ ЭКРАН
 
 window.addEventListener('load', () => {
   // preloader
   const preloader = document.querySelector('.preloader');
   preloader.style.display = 'none';
   initStartScreen();
-  layout.setLanguage(btns);
+  layout.setLanguage();
   sound.init();
-  // if (SoundManager.context.state === 'suspended') {
-  //   SoundManager.context.resume().then(() => {
-  //     SoundManager.startScreen.start();
-  //   });
-  // }
   setUpSquences();
   processAsset(0);
+  menu.init();
+  settingsMenu.init();
   document.addEventListener('keydown', (e) => keyEventHandler(e));
   document.addEventListener('keyup', (e) => keyEventHandler(e));
 });

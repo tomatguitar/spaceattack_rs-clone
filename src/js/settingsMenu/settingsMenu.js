@@ -1,27 +1,50 @@
-import * as layout from '../layouts/layoutManager';
 import * as storage from '../utils/storage';
+import { GameManager, soundFiles } from '../gameSettings/settings';
+import sound from '../soundManage/Sound';
 
-function showSettingsMenu(el) {
-  const elem = el;
-  if (!elem.classList.contains('settings-menu--visible'))
-    elem.classList.add('settings-menu--visible');
-}
+class SettingsMenu {
+  constructor(parentEl, layoutOption) {
+    this.parentEl = parentEl;
+    this.menu = document.querySelector('.settings-menu');
+    this.layoutOption = layoutOption;
+  }
 
-function closeSettingsMenu(el) {
-  const elem = el;
-  if (elem.classList.contains('settings-menu--visible')) {
-    elem.style.display = 'flex';
-    elem.style.visibility = 'visible';
-    elem.classList.remove('settings-menu--visible');
+  close() {
+    if (this.menu.classList.contains('settings-menu--visible')) {
+      this.menu.style.display = 'flex';
+      this.menu.style.visibility = 'visible';
+      this.menu.classList.remove('settings-menu--visible');
+    }
+  }
+
+  save() {
+    storage.set('language', GameManager.language);
+    this.layoutOption.updateContentList();
+    this.layoutOption.updateContentValue(
+      this.layoutOption.content,
+      GameManager.language
+    );
+  }
+
+  onCLick(event) {
+    const { target } = event;
+    const trgtDataKey = target.getAttribute('data-key');
+    const action = trgtDataKey.substring(trgtDataKey.indexOf('-') + 1);
+    if (action === 'close' || action === 'save') {
+      sound.playSound(soundFiles.clickButton);
+      this[action]();
+    }
+  }
+
+  init() {
+    this.parentEl.forEach((el) => {
+      const elem = el;
+      elem.addEventListener('click', (event) => {
+        this.onCLick(event);
+      });
+    });
+    this.layoutOption.init();
   }
 }
 
-function saveSettings(lang) {
-  storage.set('language', lang);
-  layout.updateContentList();
-  layout.updateContentValue(layout.content, lang);
-}
-
-// function saveSettings(state) {}
-
-export { showSettingsMenu, closeSettingsMenu, saveSettings };
+export default SettingsMenu;
