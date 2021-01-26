@@ -115,7 +115,7 @@ const langData = {
           'btn-ru': 'Рос',
           'btn-ukr': 'Укр',
           'btn-sound-on': 'Вкл',
-          'btn-sound-off': 'Вbкл',
+          'btn-sound-off': 'Викл',
           'btn-save': 'Зберігти',
           'btn-close': 'Закрити',
         },
