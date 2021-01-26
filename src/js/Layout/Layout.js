@@ -1,9 +1,8 @@
 import langData from '../langData/langData';
 
-import { GameManager, SETTINGS, soundFiles } from '../gameSettings/settings';
+import { GameManager, SETTINGS } from '../gameSettings/settings';
 
 import * as storage from '../utils/storage';
-import sound from '../soundManage/Sound';
 
 class Layout {
   constructor() {
@@ -37,19 +36,6 @@ class Layout {
       }
     });
     return this.content;
-  }
-
-  toggleButtonClass(target, btns) {
-    sound.playSound(soundFiles.clickButton);
-    // Проверяем тот ли это элемент который нам нужен
-    if (target.classList.contains('button--language')) {
-      for (let j = 0; j < btns.length; j += 1) {
-        // Убираем у других
-        btns[j].classList.remove('button--active');
-      }
-      // Добавляем тому на который нажали
-      target.classList.add('button--active');
-    }
   }
 
   recursiveSearch(obj, searchKey, results = []) {
@@ -87,16 +73,6 @@ class Layout {
     }
   }
 
-  chooseLanguage(event) {
-    // Отлавливаем элемент в родители на который мы нажали
-    const { target } = event;
-    const trgtDataKey = target.getAttribute('data-key');
-    GameManager.language = trgtDataKey.substring(trgtDataKey.indexOf('-') + 1);
-    this.toggleButtonClass(target, this.langBtns);
-    // eslint-disable-next-line no-console
-    console.log('Тыц!');
-  }
-
   setLanguage() {
     let lang = '';
     if (storage.get('language') !== null) {
@@ -114,12 +90,6 @@ class Layout {
     }
     this.updateContentList();
     this.updateContentValue(this.content, GameManager.language);
-  }
-
-  init() {
-    this.parent.addEventListener('click', (event) =>
-      this.chooseLanguage(event)
-    );
   }
 }
 

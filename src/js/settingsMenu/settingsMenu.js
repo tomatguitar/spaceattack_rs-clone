@@ -7,6 +7,27 @@ class SettingsMenu {
     this.parentEl = parentEl;
     this.menu = document.querySelector('.settings-menu');
     this.layoutOption = layoutOption;
+    this.langBtns = document.querySelectorAll('.button--language');
+    this.soundBtns = document.querySelectorAll('.button--sounds');
+  }
+
+  switchButtons(target, btns) {
+    sound.playSound(soundFiles.clickButton);
+    // Проверяем тот ли это элемент который нам нужен
+    for (let j = 0; j < btns.length; j += 1) {
+      // Убираем у других
+      btns[j].classList.remove('button--active');
+    }
+    // Добавляем тому на который нажали
+    target.classList.add('button--active');
+  }
+
+  chooseOption(target) {
+    if (target.classList.contains('button--language')) {
+      this.switchButtons(target, this.langBtns);
+    } else if (target.classList.contains('button--sounds')) {
+      this.switchButtons(target, this.soundBtns);
+    }
   }
 
   close() {
@@ -27,13 +48,19 @@ class SettingsMenu {
   }
 
   onCLick(event) {
+    let action = '';
     const { target } = event;
     const trgtDataKey = target.getAttribute('data-key');
-    const action = trgtDataKey.substring(trgtDataKey.indexOf('-') + 1);
+    if (trgtDataKey !== null) {
+      action = trgtDataKey.substring(trgtDataKey.indexOf('-') + 1);
+    } else {
+      return;
+    }
     if (action === 'close' || action === 'save') {
       sound.playSound(soundFiles.clickButton);
       this[action]();
     }
+    this.chooseOption(target);
   }
 
   init() {
@@ -43,7 +70,6 @@ class SettingsMenu {
         this.onCLick(event);
       });
     });
-    this.layoutOption.init();
   }
 }
 
