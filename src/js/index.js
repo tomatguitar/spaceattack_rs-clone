@@ -110,20 +110,22 @@ function clearTimeouts() {
 
 function showGameOver() {
   GameManager.phase = SETTINGS.GAME_PHASE.gameOver;
-  stars.pauseBackground();
-  stars.pauseStars();
-  clearTimeouts();
-
-  if (GameManager.enemies.gameOver) {
-    sound.playSound(soundFiles.completed);
-  } else {
-    sound.playSound(soundFiles.gameOver);
-  }
-
-  writeMessage('game-over');
   setTimeout(() => {
-    appendMessage('reset');
-  }, SETTINGS.pressSpaceDelay);
+    stars.pauseBackground();
+    stars.pauseStars();
+    clearTimeouts();
+
+    if (GameManager.enemies.gameOver) {
+      sound.playSound(soundFiles.completed);
+    } else {
+      sound.playSound(soundFiles.gameOver);
+    }
+
+    writeMessage('game-over');
+    setTimeout(() => {
+      appendMessage('reset');
+    }, SETTINGS.pressSpaceDelay);
+  }, 2000);
 }
 
 // аналог ф-ции update
@@ -235,6 +237,7 @@ const createPlayer = () => {
 
   GameManager.player = new Player(
     SETTINGS.PLAYER.divName,
+    GameManager.explosions,
     new Point(SETTINGS.PLAYER.startPosition.x, SETTINGS.PLAYER.startPosition.y),
     asset,
     new Rect(60, 60, SETTINGS.ARENA.width - 130, SETTINGS.ARENA.height - 130)
@@ -260,9 +263,9 @@ const resetGame = () => {
   stars.removeStars();
   arena.updateArenaSize();
   arena.updatePlayerStartPosition();
+  resetExplosions();
   resetPlayer();
   resetBullets();
-  resetExplosions();
   resetEnemies();
 
   GameManager.phase = SETTINGS.GAME_PHASE.readyToplay;

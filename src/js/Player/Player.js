@@ -2,10 +2,11 @@ import { SETTINGS, soundFiles } from '../gameSettings/settings';
 import sound from '../soundManage/Sound';
 import glowCounter from '../animations/counterAnimation';
 import Size from '../Size/Size';
+import Point from '../Point/Point';
 import Sprite from '../Sprite/Sprite';
 
 class Player extends Sprite {
-  constructor(divName, position, assetDesc, boundaryRect) {
+  constructor(divName, explosions, position, assetDesc, boundaryRect) {
     super(
       divName,
       position,
@@ -22,6 +23,7 @@ class Player extends Sprite {
     this.state = SETTINGS.PLAYER.state.alive;
     this.boundaryRect = boundaryRect;
     this.boundaryRect.shift(this.anchor.x, this.anchor.y);
+    this.explosions = explosions;
   }
 
   move(x, y) {
@@ -79,6 +81,13 @@ class Player extends Sprite {
       console.log('Попадание по игроку!');
       if (this.lives > 0) {
         ship.style.opacity = SETTINGS.PLAYER.flashOpacity;
+      } else if (this.lives <= 0) {
+        sound.playSound(soundFiles.explosion);
+        const centerPoint = this.getCenterPoint();
+        this.remove();
+        this.explosions.createExplosion(
+          new Point(centerPoint.x, centerPoint.y)
+        );
       }
     }
   }
