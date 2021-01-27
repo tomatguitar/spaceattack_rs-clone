@@ -4,7 +4,7 @@ import sound from '../soundManage/Sound';
 
 class SettingsMenu {
   constructor(layoutOption, soundOption) {
-    this.parentEl = document.querySelectorAll('.settings-menu');
+    this.parentEl = document.querySelector('.settings-menu');
     this.langBtns = document.querySelectorAll('.button--language');
     this.soundBtns = document.querySelectorAll('.button--sounds');
     this.parentMenu = document.querySelector('.buttons-wrapper');
@@ -37,10 +37,10 @@ class SettingsMenu {
   }
 
   close() {
-    if (this.parentEl[0].classList.contains('settings-menu--visible')) {
-      this.parentEl[0].style.display = 'flex';
-      this.parentEl[0].style.visibility = 'visible';
-      this.parentEl[0].classList.remove('settings-menu--visible');
+    if (this.parentEl.classList.contains('settings-menu--visible')) {
+      this.parentEl.style.display = 'flex';
+      this.parentEl.style.visibility = 'visible';
+      this.parentEl.classList.remove('settings-menu--visible');
     }
   }
 
@@ -67,6 +67,9 @@ class SettingsMenu {
     if (action === 'close' || action === 'save') {
       sound.playSound(soundFiles.clickButton);
       this[action]();
+    } else if (action === 'settings') {
+      sound.playSound(soundFiles.clickButton);
+      this.show();
     }
     this.chooseOption(target);
   }
@@ -74,12 +77,11 @@ class SettingsMenu {
   init() {
     this.layoutOption.setLanguage();
     this.soundOption.setIsSound(this.soundBtns);
-
-    this.parentEl.forEach((el) => {
-      const elem = el;
-      elem.addEventListener('click', (event) => {
-        this.onCLick(event);
-      });
+    this.parentEl.addEventListener('click', (event) => {
+      this.onCLick(event);
+    });
+    this.parentMenu.addEventListener('click', (event) => {
+      this.onCLick(event);
     });
   }
 }
