@@ -41,22 +41,15 @@ import Layout from './Layout/Layout';
 
 import langData from './langData/langData';
 
-import Menu from './Menu/Menu';
-
 import SettingsMenu from './SettingsMenu/SettingsMenu';
 
 const k = GameManager.keys;
 
 const arena = new Arena();
 
-const parentMenu = document.querySelector('.game__buttons--second-row');
-const parentSettingsMenu = document.querySelectorAll(
-  '.settings-menu__button-wrapper'
-);
 const layout = new Layout();
 
-const menu = new Menu(parentMenu);
-const settingsMenu = new SettingsMenu(parentSettingsMenu, layout);
+const settingsMenu = new SettingsMenu(layout, sound);
 
 const onKeyDown = () => {
   if (k.ArrowLeft) {
@@ -68,26 +61,18 @@ const onKeyDown = () => {
   if (k.ArrowRight) {
     // двигаться вправо
     GameManager.player.move(1, 0);
-    // eslint-disable-next-line no-console
-    // console.log('Вправо', GameManager.player.position);
   }
   if (k.ArrowDown) {
     // двигаться вниз
     GameManager.player.move(0, 1);
-    // eslint-disable-next-line no-console
-    // console.log('Вниз', GameManager.player.position);
   }
   if (k.ArrowUp) {
     // двигаться вверх
     GameManager.player.move(0, -1);
-    // eslint-disable-next-line no-console
-    // console.log('Вверх', GameManager.player.position);
   }
   if (k.Space) {
     // нажимаем Space
     SETTINGS.fire = true;
-    // eslint-disable-next-line no-console
-    // console.log('PEW!', GameManager.player.position);
   }
 };
 
@@ -259,7 +244,7 @@ const createPlayer = () => {
 
 const resetPlayer = () => {
   if (GameManager.player === undefined) {
-    // сейчас первый элемент в массиве  это картинка корбаля игрока
+    // сейчас первый элемент в массиве  это картинка корабля игрока
     createPlayer();
   }
   // eslint-disable-next-line no-console
@@ -335,6 +320,8 @@ function initStartScreen() {
       SoundManager.context.resume().then(() => {
         SoundManager.startScreen.start();
       });
+    } else {
+      SoundManager.startScreen.start();
     }
     startScreen.style.display = 'none';
     game.style.visibility = 'visible';
@@ -347,13 +334,11 @@ window.addEventListener('load', () => {
   // preloader
   const preloader = document.querySelector('.preloader');
   preloader.style.display = 'none';
-  initStartScreen();
-  layout.setLanguage();
+  settingsMenu.init();
   sound.init();
+  initStartScreen();
   setUpSquences();
   processAsset(0);
-  menu.init();
-  settingsMenu.init();
   document.addEventListener('keydown', (e) => keyEventHandler(e));
   document.addEventListener('keyup', (e) => keyEventHandler(e));
 });

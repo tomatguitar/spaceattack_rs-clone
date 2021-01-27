@@ -1,14 +1,15 @@
 import * as storage from '../utils/storage';
-import { GameManager, soundFiles } from '../gameSettings/settings';
+import { GameManager, soundFiles, SETTINGS } from '../gameSettings/settings';
 import sound from '../soundManage/Sound';
 
 class SettingsMenu {
-  constructor(parentEl, layoutOption) {
-    this.parentEl = parentEl;
-    this.menu = document.querySelector('.settings-menu');
-    this.layoutOption = layoutOption;
+  constructor(layoutOption, soundOption) {
+    this.parentEl = document.querySelectorAll('.settings-menu');
     this.langBtns = document.querySelectorAll('.button--language');
     this.soundBtns = document.querySelectorAll('.button--sounds');
+    this.parentMenu = document.querySelector('.buttons-wrapper');
+    this.layoutOption = layoutOption;
+    this.soundOption = soundOption;
   }
 
   switchButtons(target, btns) {
@@ -30,11 +31,16 @@ class SettingsMenu {
     }
   }
 
+  show() {
+    if (!this.parentEl.classList.contains('settings-menu--visible'))
+      this.parentEl.classList.add('settings-menu--visible');
+  }
+
   close() {
-    if (this.menu.classList.contains('settings-menu--visible')) {
-      this.menu.style.display = 'flex';
-      this.menu.style.visibility = 'visible';
-      this.menu.classList.remove('settings-menu--visible');
+    if (this.parentEl[0].classList.contains('settings-menu--visible')) {
+      this.parentEl[0].style.display = 'flex';
+      this.parentEl[0].style.visibility = 'visible';
+      this.parentEl[0].classList.remove('settings-menu--visible');
     }
   }
 
@@ -45,6 +51,8 @@ class SettingsMenu {
       this.layoutOption.content,
       GameManager.language
     );
+    this.soundOption.setIsSound(this.soundBtns);
+    this.soundOption.updateIsSoundValue(SETTINGS.isSound);
   }
 
   onCLick(event) {
@@ -64,6 +72,9 @@ class SettingsMenu {
   }
 
   init() {
+    this.layoutOption.setLanguage();
+    this.soundOption.setIsSound(this.soundBtns);
+
     this.parentEl.forEach((el) => {
       const elem = el;
       elem.addEventListener('click', (event) => {
