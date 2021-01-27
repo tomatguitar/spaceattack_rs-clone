@@ -93,4 +93,6 @@ class Layout {
   }
 }
 
-export default Layout;
+const layout = new Layout();
+
+export default layout;

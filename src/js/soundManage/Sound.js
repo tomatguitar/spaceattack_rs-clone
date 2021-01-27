@@ -59,7 +59,7 @@ class Sound {
   }
 
   setSoundVolume(value) {
-    this.gainNode.gain.setValueAtTime(value, SoundManager.context.currentTime);
+    // this.gainNode.gain.setValueAtTime(value, SoundManager.context.currentTime);
     SoundManager.gainNodeStartScreen.gain.setValueAtTime(
       value,
       SoundManager.context.currentTime

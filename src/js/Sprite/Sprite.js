@@ -30,6 +30,14 @@ class Sprite {
     document.querySelector(`.${this.divName}`).remove();
   }
 
+  hide() {
+    document.querySelector(`.${this.divName}`).style.visibility = 'hidden';
+  }
+
+  show() {
+    document.querySelector(`.${this.divName}`).style.visibility = 'visible';
+  }
+
   add(shift) {
     const div = document.createElement('div');
     div.classList.add('sprite', `${this.divName}`);

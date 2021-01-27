@@ -1,6 +1,8 @@
 import * as storage from '../utils/storage';
 import { GameManager, soundFiles, SETTINGS } from '../gameSettings/settings';
 import sound from '../soundManage/Sound';
+// import message from '../Message/Message';
+// import gameLoop from '../GameLoop/GameLoop';
 
 class SettingsMenu {
   constructor(layoutOption, soundOption) {
@@ -12,6 +14,21 @@ class SettingsMenu {
     this.layoutOption = layoutOption;
     this.soundOption = soundOption;
   }
+
+  // toggleStartPause() {
+  //   if (GameManager.phase === SETTINGS.GAME_PHASE.readyToplay) {
+  //     gameLoop.runCountDown();
+  //   }
+  //   if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
+  //     GameManager.phase = SETTINGS.GAME_PHASE.paused;
+  //     message.writeMessage('pause');
+  //   } else if (GameManager.phase === SETTINGS.GAME_PHASE.paused) {
+  //     message.clearMessages();
+  //     gameLoop.runCountDown();
+  //   } else if (GameManager.phase === SETTINGS.GAME_PHASE.gameOver) {
+  //     // Game.resetGame();
+  //   }
+  // }
 
   activeButtonKey(btns) {
     let value = '';
@@ -48,6 +65,7 @@ class SettingsMenu {
   show() {
     if (!this.parentEl.classList.contains('settings-menu--visible'))
       this.parentEl.classList.add('settings-menu--visible');
+    // GameManager.phase = SETTINGS.GAME_PHASE.paused;
   }
 
   close() {
@@ -80,14 +98,25 @@ class SettingsMenu {
       return;
     }
     switch (action) {
-      case 'close':
       case 'save':
         sound.playSound(soundFiles.clickButton);
         this[action]();
         break;
+
+      case 'close':
+        sound.playSound(soundFiles.clickButton);
+        this[action]();
+        GameManager.phase = SETTINGS.GAME_PHASE.running;
+        break;
+
+      // case 'pause':
+      //   sound.playSound(soundFiles.clickButton);
+      //   this.toggleStartPause();
+      //   break;
       case 'settings':
         sound.playSound(soundFiles.clickButton);
         this.show();
+        GameManager.phase = SETTINGS.GAME_PHASE.paused;
         break;
 
       case 'volume':

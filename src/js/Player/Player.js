@@ -84,7 +84,7 @@ class Player extends Sprite {
       } else if (this.lives <= 0) {
         sound.playSound(soundFiles.explosion);
         const centerPoint = this.getCenterPoint();
-        this.remove();
+        this.hide();
         this.explosions.createExplosion(
           new Point(centerPoint.x, centerPoint.y)
         );
@@ -99,6 +99,7 @@ class Player extends Sprite {
     this.lastFlash = 0;
     this.numFlashes = 0;
     this.lives = SETTINGS.PLAYER.startLives;
+    this.show();
     this.setLives();
     this.setDestroyed();
     this.setScore();
