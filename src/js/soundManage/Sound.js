@@ -1,14 +1,65 @@
-import { soundFiles, SoundManager } from '../gameSettings/settings';
+import { SETTINGS, soundFiles, SoundManager } from '../gameSettings/settings';
 
 import BufferLoader from './BufferLoader';
 
+import * as storage from '../utils/storage';
+
 class Sound {
+  storeIsSoundValue(value) {
+    SETTINGS.isSound = value;
+    storage.set('isSound', SETTINGS.isSound);
+  }
+
+  setIsSound(btns) {
+    let isSound = '';
+    let btnSoundKey;
+    if (storage.get('isSound') !== null) {
+      isSound = storage.get('isSound');
+      SETTINGS.isSound = isSound;
+    } else {
+      isSound = SETTINGS.isSound;
+    }
+    for (let i = 0; i < btns.length; i += 1) {
+      btnSoundKey = btns[i].getAttribute('data-key');
+      if (btnSoundKey === `btn-${isSound}`) {
+        btns[i].classList.add('button--active');
+      }
+    }
+  }
+
+  switchIsSound(btns) {
+    for (let i = 0; i < btns.length; i += 1) {
+      if (btns[i].classList.contains('button--active')) {
+        const soundKey = btns[i].getAttribute('data-key');
+        const isSound = soundKey.substring(soundKey.indexOf('-') + 1);
+        SETTINGS.isSound = isSound;
+      }
+    }
+    switch (SETTINGS.isSound) {
+      case 'sound-on':
+        SoundManager.context.resume().then(() => {
+          SoundManager.startScreen.start();
+        });
+        break;
+      case 'sound-off':
+        if (SoundManager.context.state !== 'suspended') {
+          SoundManager.context.suspend();
+        }
+        break;
+      // no default
+    }
+  }
+
+  changeSoundVolume() {}
+
   playSound(sound) {
     const currIndex = SoundManager.sounds.indexOf(sound);
     const source = SoundManager.context.createBufferSource();
     source.buffer = SoundManager.bufferList[currIndex];
     source.connect(SoundManager.context.destination);
-    source.start();
+    if (SETTINGS.isSound === 'sound-on') {
+      source.start();
+    }
   }
 
   capitalize(str) {
@@ -64,15 +115,6 @@ class Sound {
   finishedLoading(bufferedList) {
     SoundManager.bufferList = [...SoundManager.bufferList, ...bufferedList];
     Sound.createAudio();
-    // if (SoundManager.context.state === 'suspended') {
-    //   SoundManager.context.resume().then(() => {
-    //     SoundManager.startScreen.start();
-    //   });
-    // }
-    // SoundManager.context.resume();
-    // SoundManager.startScreen.start();
-    // eslint-disable-next-line no-console
-    console.log(`Здесь дожно что то стартануть`);
   }
 
   init() {

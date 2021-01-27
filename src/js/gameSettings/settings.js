@@ -58,18 +58,6 @@ const soundFiles = {
   clickButton: clickButton,
 };
 
-// const soundFiles = [
-//   startScreenMusic,
-//   level1Music,
-//   countdown,
-//   explosion,
-//   go,
-//   loseLife,
-//   gameOver,
-//   completed,
-//   shot,
-// ];
-
 const SoundManager = {
   startScreen: null,
   gainNodeStartScreen: null,
@@ -79,6 +67,7 @@ const SoundManager = {
   bufferLoader: null,
   bufferList: [],
   sounds: [],
+  isSound: '',
 };
 
 // const arena = document.querySelector('.game__arena');
@@ -152,6 +141,7 @@ const SETTINGS = {
   pressSpaceDelay: 3000,
   explosionTimeout: 1000,
   gameLanguage: 'en',
+  isSound: 'sound-on',
 };
 
 const GameManager = {

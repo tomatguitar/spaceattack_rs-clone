@@ -320,8 +320,6 @@ function initStartScreen() {
       SoundManager.context.resume().then(() => {
         SoundManager.startScreen.start();
       });
-    } else {
-      SoundManager.startScreen.start();
     }
     startScreen.style.display = 'none';
     game.style.visibility = 'visible';

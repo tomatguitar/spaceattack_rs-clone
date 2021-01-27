@@ -51,8 +51,8 @@ class SettingsMenu {
       this.layoutOption.content,
       GameManager.language
     );
-    this.soundOption.setIsSound(this.soundBtns);
-    this.soundOption.updateIsSoundValue(SETTINGS.isSound);
+    this.soundOption.switchIsSound(this.soundBtns);
+    this.soundOption.storeIsSoundValue(SETTINGS.isSound);
   }
 
   onCLick(event) {
