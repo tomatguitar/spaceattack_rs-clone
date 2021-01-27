@@ -142,6 +142,7 @@ const SETTINGS = {
   explosionTimeout: 1000,
   gameLanguage: 'en',
   isSound: 'sound-on',
+  volume: 0.2,
 };
 
 const GameManager = {

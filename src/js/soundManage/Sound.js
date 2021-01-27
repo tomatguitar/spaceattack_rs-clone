@@ -5,6 +5,24 @@ import BufferLoader from './BufferLoader';
 import * as storage from '../utils/storage';
 
 class Sound {
+  constructor() {
+    const musicNames = Object.values(soundFiles);
+    SoundManager.sounds = [...SoundManager.sounds, ...musicNames];
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    SoundManager.context = new AudioContext();
+    SoundManager.bufferLoader = new BufferLoader(
+      SoundManager.context,
+      SoundManager.sounds,
+      this.finishedLoading
+    );
+    this.gainNode = SoundManager.context.createGain();
+    this.gainNode.connect(SoundManager.context.destination);
+    this.gainNode.gain.setValueAtTime(
+      SETTINGS.volume,
+      SoundManager.context.currentTime
+    );
+  }
+
   storeIsSoundValue(value) {
     SETTINGS.isSound = value;
     storage.set('isSound', SETTINGS.isSound);
@@ -37,9 +55,7 @@ class Sound {
     }
     switch (SETTINGS.isSound) {
       case 'sound-on':
-        SoundManager.context.resume().then(() => {
-          SoundManager.startScreen.start();
-        });
+        SoundManager.context.resume();
         break;
       case 'sound-off':
         if (SoundManager.context.state !== 'suspended') {
@@ -50,7 +66,23 @@ class Sound {
     }
   }
 
-  changeSoundVolume() {}
+  setSoundVolume(value) {
+    this.gainNode.gain.setValueAtTime(value, SoundManager.context.currentTime);
+    SoundManager.gainNodeStartScreen.gain.setValueAtTime(
+      value,
+      SoundManager.context.currentTime
+    );
+    SoundManager.gainNodeGame.gain.setValueAtTime(
+      value,
+      SoundManager.context.currentTime
+    );
+  }
+
+  getSoundVolume(el) {
+    const elem = el;
+    const fraction = parseInt(elem.value, 10) / parseInt(elem.max, 10);
+    SETTINGS.volume = fraction * fraction;
+  }
 
   playSound(sound) {
     const currIndex = SoundManager.sounds.indexOf(sound);
@@ -96,7 +128,7 @@ class Sound {
     SoundManager.startScreen.connect(SoundManager.gainNodeStartScreen);
     SoundManager.gainNodeStartScreen.connect(SoundManager.context.destination);
     SoundManager.gainNodeStartScreen.gain.exponentialRampToValueAtTime(
-      1.0,
+      SETTINGS.volume,
       SoundManager.context.currentTime + 3.0
     );
 
@@ -107,7 +139,7 @@ class Sound {
     SoundManager.game.connect(SoundManager.gainNodeGame);
     SoundManager.gainNodeGame.connect(SoundManager.context.destination);
     SoundManager.gainNodeGame.gain.exponentialRampToValueAtTime(
-      1.0,
+      SETTINGS.volume,
       SoundManager.context.currentTime + 3.0
     );
   }
@@ -118,16 +150,6 @@ class Sound {
   }
 
   init() {
-    // Fix up for prefixing
-    const musicNames = Object.values(soundFiles);
-    SoundManager.sounds = [...SoundManager.sounds, ...musicNames];
-    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    SoundManager.context = new AudioContext();
-    SoundManager.bufferLoader = new BufferLoader(
-      SoundManager.context,
-      SoundManager.sounds,
-      this.finishedLoading
-    );
     SoundManager.bufferLoader.load();
   }
 }

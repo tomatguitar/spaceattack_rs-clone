@@ -8,6 +8,7 @@ class SettingsMenu {
     this.langBtns = document.querySelectorAll('.button--language');
     this.soundBtns = document.querySelectorAll('.button--sounds');
     this.parentMenu = document.querySelector('.buttons-wrapper');
+    this.volumeSlider = document.querySelector('.range--volume');
     this.layoutOption = layoutOption;
     this.soundOption = soundOption;
   }
@@ -53,6 +54,7 @@ class SettingsMenu {
     );
     this.soundOption.switchIsSound(this.soundBtns);
     this.soundOption.storeIsSoundValue(SETTINGS.isSound);
+    this.soundOption.setSoundVolume(SETTINGS.volume);
   }
 
   onCLick(event) {
@@ -70,6 +72,8 @@ class SettingsMenu {
     } else if (action === 'settings') {
       sound.playSound(soundFiles.clickButton);
       this.show();
+    } else if (action === 'volume') {
+      this.soundOption.getSoundVolume(target);
     }
     this.chooseOption(target);
   }
@@ -81,6 +85,9 @@ class SettingsMenu {
       this.onCLick(event);
     });
     this.parentMenu.addEventListener('click', (event) => {
+      this.onCLick(event);
+    });
+    this.parentEl.addEventListener('change', (event) => {
       this.onCLick(event);
     });
   }
