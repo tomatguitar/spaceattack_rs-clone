@@ -13,6 +13,17 @@ class SettingsMenu {
     this.soundOption = soundOption;
   }
 
+  activeButtonKey(btns) {
+    let value = '';
+    for (let i = 0; i < btns.length; i += 1) {
+      if (btns[i].classList.contains('button--active')) {
+        const optionKey = btns[i].getAttribute('data-key');
+        value = optionKey.substring(optionKey.indexOf('-') + 1);
+      }
+    }
+    return value;
+  }
+
   switchButtons(target, btns) {
     sound.playSound(soundFiles.clickButton);
     // Проверяем тот ли это элемент который нам нужен
@@ -27,8 +38,10 @@ class SettingsMenu {
   chooseOption(target) {
     if (target.classList.contains('button--language')) {
       this.switchButtons(target, this.langBtns);
+      GameManager.language = this.activeButtonKey(this.langBtns);
     } else if (target.classList.contains('button--sounds')) {
       this.switchButtons(target, this.soundBtns);
+      SETTINGS.isSound = this.activeButtonKey(this.soundBtns);
     }
   }
 
@@ -52,8 +65,8 @@ class SettingsMenu {
       this.layoutOption.content,
       GameManager.language
     );
-    this.soundOption.switchIsSound(this.soundBtns);
-    this.soundOption.storeIsSoundValue(SETTINGS.isSound);
+    this.soundOption.switchIsSound();
+    this.soundOption.storeIsSoundValue();
     this.soundOption.setSoundVolume(SETTINGS.volume);
   }
 
@@ -66,16 +79,25 @@ class SettingsMenu {
     } else {
       return;
     }
-    if (action === 'close' || action === 'save') {
-      sound.playSound(soundFiles.clickButton);
-      this[action]();
-    } else if (action === 'settings') {
-      sound.playSound(soundFiles.clickButton);
-      this.show();
-    } else if (action === 'volume') {
-      this.soundOption.getSoundVolume(target);
+    switch (action) {
+      case 'close':
+      case 'save':
+        sound.playSound(soundFiles.clickButton);
+        this[action]();
+        break;
+      case 'settings':
+        sound.playSound(soundFiles.clickButton);
+        this.show();
+        break;
+
+      case 'volume':
+        this.soundOption.getSoundVolume(target);
+        break;
+
+      default:
+        this.chooseOption(target);
+        break;
     }
-    this.chooseOption(target);
   }
 
   init() {

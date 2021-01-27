@@ -15,16 +15,15 @@ class Sound {
       SoundManager.sounds,
       this.finishedLoading
     );
-    this.gainNode = SoundManager.context.createGain();
-    this.gainNode.connect(SoundManager.context.destination);
-    this.gainNode.gain.setValueAtTime(
-      SETTINGS.volume,
-      SoundManager.context.currentTime
-    );
+    // this.gainNode = SoundManager.context.createGain();
+    // this.gainNode.connect(SoundManager.context.destination);
+    // this.gainNode.gain.setValueAtTime(
+    //   SETTINGS.volume,
+    //   SoundManager.context.currentTime
+    // );
   }
 
-  storeIsSoundValue(value) {
-    SETTINGS.isSound = value;
+  storeIsSoundValue() {
     storage.set('isSound', SETTINGS.isSound);
   }
 
@@ -45,14 +44,7 @@ class Sound {
     }
   }
 
-  switchIsSound(btns) {
-    for (let i = 0; i < btns.length; i += 1) {
-      if (btns[i].classList.contains('button--active')) {
-        const soundKey = btns[i].getAttribute('data-key');
-        const isSound = soundKey.substring(soundKey.indexOf('-') + 1);
-        SETTINGS.isSound = isSound;
-      }
-    }
+  switchIsSound() {
     switch (SETTINGS.isSound) {
       case 'sound-on':
         SoundManager.context.resume();
@@ -89,6 +81,12 @@ class Sound {
     const source = SoundManager.context.createBufferSource();
     source.buffer = SoundManager.bufferList[currIndex];
     source.connect(SoundManager.context.destination);
+    const gainNode = SoundManager.context.createGain();
+    gainNode.connect(SoundManager.context.destination);
+    gainNode.gain.setValueAtTime(
+      SETTINGS.volume,
+      SoundManager.context.currentTime
+    );
     if (SETTINGS.isSound === 'sound-on') {
       source.start();
     }
