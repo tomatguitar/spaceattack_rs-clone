@@ -125,7 +125,7 @@ class Game {
         SETTINGS.PLAYER.startPosition.y
       ),
       asset,
-      new Rect(60, 60, SETTINGS.ARENA.width - 130, SETTINGS.ARENA.height - 130)
+      new Rect(40, 40, SETTINGS.ARENA.width - 100, SETTINGS.ARENA.height - 100)
     );
     GameManager.player.add(true);
   }
