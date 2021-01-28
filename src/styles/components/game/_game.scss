@@ -1,6 +1,5 @@
 .game {
-  display: none;
-  // display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   max-width: 128rem;
@@ -8,6 +7,8 @@
   margin: 0 auto;
   padding-right: 2rem;
   padding-left: 2rem;
+
+  visibility: hidden;
 
   &__header {
     display: flex;
@@ -42,6 +43,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+    width: 45rem;
     margin: 0 auto;
   }
 
@@ -50,6 +52,11 @@
     flex-wrap: wrap;
     align-items: flex-start;
   }
+}
+
+.stats-container {
+  margin: 0;
+  padding: 0;
 }
 
 .buttons-wrapper {

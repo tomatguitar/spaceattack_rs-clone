@@ -1,10 +1,17 @@
 .score {
   color: yellow;
   font-size: 2.5rem;
+  line-height: 2.5rem;
   text-align: left;
 }
 
 .score--best,
 .score--total {
-  padding: 1rem;
+  padding-left: 1rem;
+}
+
+.score-container {
+  display: flex;
+  margin: 0;
+  padding: 0;
 }
