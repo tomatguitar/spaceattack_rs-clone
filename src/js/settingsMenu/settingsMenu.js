@@ -106,17 +106,17 @@ class SettingsMenu {
       case 'close':
         sound.playSound(soundFiles.clickButton);
         this[action]();
-        GameManager.phase = SETTINGS.GAME_PHASE.running;
+        // GameManager.phase = SETTINGS.GAME_PHASE.running;
         break;
 
       // case 'pause':
       //   sound.playSound(soundFiles.clickButton);
-      //   this.toggleStartPause();
+      //   GameManager.phase = SETTINGS.GAME_PHASE.paused;
       //   break;
       case 'settings':
         sound.playSound(soundFiles.clickButton);
         this.show();
-        GameManager.phase = SETTINGS.GAME_PHASE.paused;
+        // GameManager.phase = SETTINGS.GAME_PHASE.paused;
         break;
 
       case 'volume':

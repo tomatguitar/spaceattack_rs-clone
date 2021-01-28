@@ -40,22 +40,26 @@ class Game {
     this.message = messages;
     this.settingsMenu = menu;
     this.sound = sounds;
-    this.startBtn = document.querySelector('.buttons-wrapper');
+    this.startBtn = document.querySelector('.button--start');
   }
 
   toggleStartPause() {
     // const { target } = event;
     if (GameManager.phase === SETTINGS.GAME_PHASE.readyToplay) {
       this.gameLoop.runCountDown();
+      this.sound.swapMusic('startScreen', 'game');
     }
     if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
       GameManager.phase = SETTINGS.GAME_PHASE.paused;
+      this.sound.swapMusic('game', 'startScreen');
       this.message.writeMessage('pause');
     } else if (GameManager.phase === SETTINGS.GAME_PHASE.paused) {
+      this.sound.swapMusic('startScreen', 'game');
       this.message.clearMessages();
       this.gameLoop.runCountDown();
     } else if (GameManager.phase === SETTINGS.GAME_PHASE.gameOver) {
       this.resetGame();
+      this.sound.swapMusic('game', 'startScreen');
     }
   }
 
@@ -64,11 +68,9 @@ class Game {
     const startScreen = document.querySelector('.start-screen');
     const btn = document.querySelector('.button--init');
     btn.addEventListener('click', () => {
-      if (SoundManager.context.state === 'suspended') {
-        SoundManager.context.resume().then(() => {
-          SoundManager.startScreen.start();
-        });
-      }
+      SoundManager.context.resume();
+      SoundManager.startScreen.start();
+
       startScreen.style.display = 'none';
       game.style.visibility = 'visible';
     });
