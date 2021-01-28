@@ -69,7 +69,9 @@ class Game {
     const btn = document.querySelector('.button--init');
     btn.addEventListener('click', () => {
       SoundManager.context.resume();
-      SoundManager.startScreen.start();
+      if (SETTINGS.isSound === 'sound-on') {
+        SoundManager.startScreen.start();
+      }
 
       startScreen.style.display = 'none';
       game.style.visibility = 'visible';
