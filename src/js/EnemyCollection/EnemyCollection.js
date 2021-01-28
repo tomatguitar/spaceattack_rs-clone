@@ -62,6 +62,7 @@ class EnemyCollection {
             enemy.containingBox.IntersectedBy(bullet.containingBox)
           ) {
             bullet.kill();
+            enemy.hitAnimation();
             enemy.lives -= 1;
             if (enemy.lives <= 0) {
               sound.playSound(soundFiles.explosion);

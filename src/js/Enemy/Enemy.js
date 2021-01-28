@@ -123,6 +123,14 @@ class Enemy extends Sprite {
     // передвигаем противника к ней
     this.state = SETTINGS.ENEMY.state.movingToWaypoint;
   }
+
+  hitAnimation() {
+    const enemy = document.querySelector(`.${this.divName}`);
+    enemy.style.filter = `grayscale(1) invert(1)`;
+    setTimeout(() => {
+      enemy.style.filter = `grayscale(0) invert(0)`;
+    }, 100);
+  }
 }
 
 export default Enemy;
