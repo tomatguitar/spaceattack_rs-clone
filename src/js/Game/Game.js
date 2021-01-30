@@ -16,7 +16,7 @@ import BulletCollection from '../BulletCollection/BulletCollection';
 
 import EnemyCollection from '../EnemyCollection/EnemyCollection';
 
-import setUpSquences from '../sequenceManage/sequenceManage';
+// import setUpSquences from '../sequenceManage/sequenceManage';
 
 import * as stars from '../animations/stars';
 import SettingsMenu from '../SettingsMenu/SettingsMenu';
@@ -27,6 +27,7 @@ import gameLoop from '../GameLoop/GameLoop';
 import layout from '../Layout/Layout';
 import sound from '../soundManage/Sound';
 import Arena from '../Arena/Arena';
+import levelManager from '../LevelManager/LevelManager';
 
 const arena = new Arena();
 
@@ -51,12 +52,12 @@ class Game {
     }
     if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
       GameManager.phase = SETTINGS.GAME_PHASE.paused;
-      this.sound.swapMusic('game', 'startScreen');
       this.message.writeMessage('pause');
+      this.sound.swapMusic('game', 'startScreen');
     } else if (GameManager.phase === SETTINGS.GAME_PHASE.paused) {
-      this.sound.swapMusic('startScreen', 'game');
       this.message.clearMessages();
       this.gameLoop.runCountDown();
+      this.sound.swapMusic('startScreen', 'game');
     } else if (GameManager.phase === SETTINGS.GAME_PHASE.gameOver) {
       this.resetGame();
       this.sound.swapMusic('game', 'startScreen');
@@ -69,9 +70,7 @@ class Game {
     const btn = document.querySelector('.button--init');
     btn.addEventListener('click', () => {
       SoundManager.context.resume();
-      if (SETTINGS.isSound === 'sound-on') {
-        SoundManager.startScreen.start();
-      }
+      SoundManager.startScreen.start();
 
       startScreen.style.display = 'none';
       game.style.visibility = 'visible';
@@ -178,8 +177,10 @@ class Game {
     this.settingsMenu.init();
     this.sound.init();
     this.initStartScreen();
-    setUpSquences();
     this.processAsset(0);
+    levelManager.create('level1');
+    levelManager.init();
+    // setUpSquences();
     this.startBtn.addEventListener('click', () => {
       this.toggleStartPause();
     });

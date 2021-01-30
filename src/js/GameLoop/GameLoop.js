@@ -1,4 +1,9 @@
-import { GameManager, SETTINGS, soundFiles } from '../gameSettings/settings';
+import {
+  GameManager,
+  SETTINGS,
+  soundFiles,
+  SoundManager,
+} from '../gameSettings/settings';
 import sound from '../soundManage/Sound';
 import Control from '../Control/Control';
 import message from '../Message/Message';
@@ -84,16 +89,27 @@ class GameLoop {
       this.clearTimeouts();
 
       if (GameManager.enemies.gameOver) {
+        SoundManager.gainNodeGame.gain.setValueAtTime(
+          0,
+          SoundManager.context.currentTime
+        );
         sound.playSound(soundFiles.completed);
+        message.writeMessage('victory');
+        setTimeout(() => {
+          message.appendMessage('reset');
+        }, SETTINGS.pressSpaceDelay);
       } else {
+        SoundManager.gainNodeGame.gain.setValueAtTime(
+          0,
+          SoundManager.context.currentTime
+        );
         sound.playSound(soundFiles.gameOver);
+        message.writeMessage('game-over');
+        setTimeout(() => {
+          message.appendMessage('reset');
+        }, SETTINGS.pressSpaceDelay);
       }
-
-      message.writeMessage('game-over');
-      setTimeout(() => {
-        message.appendMessage('reset');
-      }, SETTINGS.pressSpaceDelay);
-    }, 2000);
+    }, 1000);
   }
 }
 

@@ -15,16 +15,14 @@ class Sound {
       SoundManager.sounds,
       this.finishedLoading
     );
-    // this.gainNode = SoundManager.context.createGain();
-    // this.gainNode.connect(SoundManager.context.destination);
-    // this.gainNode.gain.setValueAtTime(
-    //   SETTINGS.volume,
-    //   SoundManager.context.currentTime
-    // );
   }
 
   storeIsSoundValue() {
     storage.set('isSound', SETTINGS.isSound);
+  }
+
+  storeVolumeValue() {
+    storage.set('volume', SETTINGS.volume);
   }
 
   setIsSound(btns) {
@@ -44,22 +42,35 @@ class Sound {
     }
   }
 
+  setVolumeValue(elem) {
+    const slider = elem;
+    let volumeValue = '';
+    if (storage.get('volume') !== null) {
+      volumeValue = storage.get('volume');
+      SETTINGS.volume = volumeValue;
+    } else {
+      volumeValue = SETTINGS.volume;
+    }
+    slider.value = Math.sqrt(volumeValue) * 100;
+  }
+
   switchIsSound() {
     switch (SETTINGS.isSound) {
       case 'sound-on':
-        SoundManager.context.resume();
+        this.updateVolumeValue(SETTINGS.volume);
         break;
       case 'sound-off':
-        if (SoundManager.context.state !== 'suspended') {
-          SoundManager.context.suspend();
-        }
+        this.updateVolumeValue(0);
         break;
       // no default
     }
   }
 
-  setSoundVolume(value) {
-    // this.gainNode.gain.setValueAtTime(value, SoundManager.context.currentTime);
+  updateVolumeValue(value) {
+    SoundManager.gainNodeSource.gain.setValueAtTime(
+      value,
+      SoundManager.context.currentTime
+    );
     SoundManager.gainNodeStartScreen.gain.setValueAtTime(
       value,
       SoundManager.context.currentTime
@@ -78,18 +89,23 @@ class Sound {
 
   playSound(sound) {
     const currIndex = SoundManager.sounds.indexOf(sound);
-    const source = SoundManager.context.createBufferSource();
-    source.buffer = SoundManager.bufferList[currIndex];
-    source.connect(SoundManager.context.destination);
-    const gainNode = SoundManager.context.createGain();
-    gainNode.connect(SoundManager.context.destination);
-    gainNode.gain.setValueAtTime(
-      SETTINGS.volume,
-      SoundManager.context.currentTime
-    );
-    if (SETTINGS.isSound === 'sound-on') {
-      source.start();
+    SoundManager.source = SoundManager.context.createBufferSource();
+    SoundManager.gainNodeSource = SoundManager.context.createGain();
+    SoundManager.source.buffer = SoundManager.bufferList[currIndex];
+    SoundManager.source.connect(SoundManager.gainNodeSource);
+    SoundManager.gainNodeSource.connect(SoundManager.context.destination);
+    if (SETTINGS.isSound === 'sound-off') {
+      SoundManager.gainNodeSource.gain.setValueAtTime(
+        0,
+        SoundManager.context.currentTime
+      );
+    } else {
+      SoundManager.gainNodeSource.gain.setValueAtTime(
+        SETTINGS.volume,
+        SoundManager.context.currentTime
+      );
     }
+    SoundManager.source.start();
   }
 
   capitalize(str) {
@@ -104,6 +120,7 @@ class Sound {
       SoundManager.context.currentTime + 3.0
     );
     SoundManager[from].stop(SoundManager.context.currentTime + 3.0);
+
     Sound.createAudio();
     SoundManager[secondTrack].gain.setValueAtTime(
       0.07,
@@ -119,16 +136,23 @@ class Sound {
     SoundManager.gainNodeStartScreen = SoundManager.context.createGain();
     SoundManager.startScreen.buffer = startScreenMusic;
     SoundManager.startScreen.loop = true;
-    SoundManager.gainNodeStartScreen.gain.setValueAtTime(
-      0.01,
-      SoundManager.context.currentTime
-    );
     SoundManager.startScreen.connect(SoundManager.gainNodeStartScreen);
     SoundManager.gainNodeStartScreen.connect(SoundManager.context.destination);
-    SoundManager.gainNodeStartScreen.gain.exponentialRampToValueAtTime(
-      SETTINGS.volume,
-      SoundManager.context.currentTime + 3.0
-    );
+    if (SETTINGS.isSound === 'sound-off') {
+      SoundManager.gainNodeStartScreen.gain.setValueAtTime(
+        0,
+        SoundManager.context.currentTime
+      );
+    } else {
+      SoundManager.gainNodeStartScreen.gain.setValueAtTime(
+        0.01,
+        SoundManager.context.currentTime
+      );
+      SoundManager.gainNodeStartScreen.gain.exponentialRampToValueAtTime(
+        SETTINGS.volume,
+        SoundManager.context.currentTime + 3.0
+      );
+    }
 
     SoundManager.game = SoundManager.context.createBufferSource();
     SoundManager.gainNodeGame = SoundManager.context.createGain();
@@ -136,10 +160,17 @@ class Sound {
     SoundManager.game.loop = true;
     SoundManager.game.connect(SoundManager.gainNodeGame);
     SoundManager.gainNodeGame.connect(SoundManager.context.destination);
-    SoundManager.gainNodeGame.gain.exponentialRampToValueAtTime(
-      SETTINGS.volume,
-      SoundManager.context.currentTime + 3.0
-    );
+    if (SETTINGS.isSound === 'sound-off') {
+      SoundManager.gainNodeGame.gain.setValueAtTime(
+        0,
+        SoundManager.context.currentTime
+      );
+    } else {
+      SoundManager.gainNodeGame.gain.exponentialRampToValueAtTime(
+        SETTINGS.volume,
+        SoundManager.context.currentTime + 3.0
+      );
+    }
   }
 
   finishedLoading(bufferedList) {

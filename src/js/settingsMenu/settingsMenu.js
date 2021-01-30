@@ -6,6 +6,7 @@ import sound from '../soundManage/Sound';
 
 class SettingsMenu {
   constructor(layoutOption, soundOption) {
+    this.overlay = document.querySelector('.overlay');
     this.parentEl = document.querySelector('.settings-menu');
     this.langBtns = document.querySelectorAll('.button--language');
     this.soundBtns = document.querySelectorAll('.button--sounds');
@@ -14,21 +15,6 @@ class SettingsMenu {
     this.layoutOption = layoutOption;
     this.soundOption = soundOption;
   }
-
-  // toggleStartPause() {
-  //   if (GameManager.phase === SETTINGS.GAME_PHASE.readyToplay) {
-  //     gameLoop.runCountDown();
-  //   }
-  //   if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
-  //     GameManager.phase = SETTINGS.GAME_PHASE.paused;
-  //     message.writeMessage('pause');
-  //   } else if (GameManager.phase === SETTINGS.GAME_PHASE.paused) {
-  //     message.clearMessages();
-  //     gameLoop.runCountDown();
-  //   } else if (GameManager.phase === SETTINGS.GAME_PHASE.gameOver) {
-  //     // Game.resetGame();
-  //   }
-  // }
 
   activeButtonKey(btns) {
     let value = '';
@@ -63,9 +49,10 @@ class SettingsMenu {
   }
 
   show() {
-    if (!this.parentEl.classList.contains('settings-menu--visible'))
+    if (!this.parentEl.classList.contains('settings-menu--visible')) {
       this.parentEl.classList.add('settings-menu--visible');
-    // GameManager.phase = SETTINGS.GAME_PHASE.paused;
+      this.overlay.style.display = 'flex';
+    }
   }
 
   close() {
@@ -73,6 +60,7 @@ class SettingsMenu {
       this.parentEl.style.display = 'flex';
       this.parentEl.style.visibility = 'visible';
       this.parentEl.classList.remove('settings-menu--visible');
+      this.overlay.style.display = 'none';
     }
   }
 
@@ -83,9 +71,10 @@ class SettingsMenu {
       this.layoutOption.content,
       GameManager.language
     );
+    this.soundOption.updateVolumeValue(SETTINGS.volume);
     this.soundOption.switchIsSound();
     this.soundOption.storeIsSoundValue();
-    this.soundOption.setSoundVolume(SETTINGS.volume);
+    this.soundOption.storeVolumeValue();
   }
 
   onCLick(event) {
@@ -99,20 +88,10 @@ class SettingsMenu {
     }
     switch (action) {
       case 'save':
-        sound.playSound(soundFiles.clickButton);
-        this[action]();
-        break;
-
       case 'close':
         sound.playSound(soundFiles.clickButton);
         this[action]();
-        // GameManager.phase = SETTINGS.GAME_PHASE.running;
         break;
-
-      // case 'pause':
-      //   sound.playSound(soundFiles.clickButton);
-      //   GameManager.phase = SETTINGS.GAME_PHASE.paused;
-      //   break;
       case 'settings':
         sound.playSound(soundFiles.clickButton);
         this.show();
@@ -131,6 +110,7 @@ class SettingsMenu {
 
   init() {
     this.layoutOption.setLanguage();
+    this.soundOption.setVolumeValue(this.volumeSlider);
     this.soundOption.setIsSound(this.soundBtns);
     this.parentEl.addEventListener('click', (event) => {
       this.onCLick(event);
