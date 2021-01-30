@@ -19,7 +19,7 @@ import EnemyCollection from '../EnemyCollection/EnemyCollection';
 // import setUpSquences from '../sequenceManage/sequenceManage';
 
 import * as stars from '../animations/stars';
-import SettingsMenu from '../SettingsMenu/SettingsMenu';
+import SettingsMenu from '../settingsMenu/settingsMenu';
 import message from '../Message/Message';
 
 import control from '../Control/Control';
