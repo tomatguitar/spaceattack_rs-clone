@@ -3,11 +3,12 @@ import {
   // ENEMY_SEQUENCES,
   ATTACK_BLOCKS,
   ENEMY_SPEED,
+  soundFiles,
 } from '../gameSettings/settings';
 
 const levelData = {
   level1: {
-    music: '',
+    music: soundFiles.level1Music,
     image: '',
     sequences: [
       {
