@@ -115,17 +115,31 @@ class Sound {
   swapMusic(from, to) {
     const firstTrack = `gainNode${this.capitalize(from)}`;
     const secondTrack = `gainNode${this.capitalize(to)}`;
-    SoundManager[firstTrack].gain.exponentialRampToValueAtTime(
-      0.00001,
-      SoundManager.context.currentTime + 3.0
-    );
-    SoundManager[from].stop(SoundManager.context.currentTime + 3.0);
+    if (SETTINGS.isSound === 'sound-off') {
+      SoundManager[firstTrack].gain.setValueAtTime(
+        0,
+        SoundManager.context.currentTime
+      );
+    } else {
+      SoundManager[firstTrack].gain.exponentialRampToValueAtTime(
+        0.00001,
+        SoundManager.context.currentTime + 3.0
+      );
+      SoundManager[from].stop(SoundManager.context.currentTime + 3.0);
+    }
 
     Sound.createAudio();
-    SoundManager[secondTrack].gain.setValueAtTime(
-      0.07,
-      SoundManager.context.currentTime
-    );
+    if (SETTINGS.isSound === 'sound-off') {
+      SoundManager[secondTrack].gain.setValueAtTime(
+        0,
+        SoundManager.context.currentTime
+      );
+    } else {
+      SoundManager[secondTrack].gain.setValueAtTime(
+        0.07,
+        SoundManager.context.currentTime
+      );
+    }
     SoundManager[to].start();
   }
 

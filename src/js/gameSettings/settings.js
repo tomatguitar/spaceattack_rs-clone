@@ -98,7 +98,7 @@ const SETTINGS = {
     flashOpacity: '0.5',
     flashTime: 300,
     flashes: 8,
-    startLives: 3,
+    startLives: 1,
     state: {
       alive: 0,
       dead: 1,
@@ -151,6 +151,7 @@ const GameManager = {
   bullets: undefined,
   explosions: undefined,
   enemies: undefined,
+  levels: [],
   language: '',
   timeouts: [],
   phase: SETTINGS.GAME_PHASE.gameOver,
@@ -173,7 +174,8 @@ const WAYPOINTS = {
     {
       rotation: 0,
       x: 60,
-      y: 620,
+      y: 1300,
+      // y: 620,
       dirX: 0,
       dirY: 1,
     },
@@ -189,7 +191,7 @@ const WAYPOINTS = {
     {
       rotation: 0,
       x: 180,
-      y: 620,
+      y: 1300,
       dirX: 0,
       dirY: 1,
     },
@@ -205,7 +207,7 @@ const WAYPOINTS = {
     {
       rotation: 0,
       x: 300,
-      y: 620,
+      y: 1300,
       dirX: 0,
       dirY: 1,
     },
@@ -221,7 +223,7 @@ const WAYPOINTS = {
     {
       rotation: 0,
       x: 420,
-      y: 620,
+      y: 1300,
       dirX: 0,
       dirY: 1,
     },
@@ -237,7 +239,7 @@ const WAYPOINTS = {
     {
       rotation: 0,
       x: 540,
-      y: 620,
+      y: 1300,
       dirX: 0,
       dirY: 1,
     },
@@ -253,7 +255,7 @@ const WAYPOINTS = {
     {
       rotation: 0,
       x: 660,
-      y: 620,
+      y: 1300,
       dirX: 0,
       dirY: 1,
     },
