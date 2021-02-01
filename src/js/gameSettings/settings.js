@@ -1,3 +1,6 @@
+import galaxy1 from '../../assets/static/images/galaxy1.jpg';
+import galaxy2 from '../../assets/static/images/galaxy2.jpg';
+
 import ship from '../../assets/static/images/sship1.png';
 
 import laser from '../../assets/static/images/laser.png';
@@ -6,6 +9,7 @@ import enemy1 from '../../assets/static/images/enemy1.png';
 import enemy2 from '../../assets/static/images/enemy2.png';
 import enemy3 from '../../assets/static/images/enemy3.png';
 import enemy4 from '../../assets/static/images/enemy4.png';
+import enemy5 from '../../assets/static/images/asteroid.png';
 
 import explosion0 from '../../assets/static/images/explosion/explosion00_s.png';
 import explosion1 from '../../assets/static/images/explosion/explosion01_s.png';
@@ -29,9 +33,11 @@ import level1Music from '../../assets/static/sounds/level1.ogg';
 import clickButton from '../../assets/static/sounds/clickButtonSound.ogg';
 
 const imageFiles = {
+  galaxy1: galaxy1,
+  galaxy2: galaxy2,
   player: ship,
   weapon: laser,
-  enemy: [enemy1, enemy2, enemy3, enemy4],
+  enemy: [enemy1, enemy2, enemy3, enemy4, enemy5],
   explosion: [
     explosion0,
     explosion1,
@@ -135,6 +141,7 @@ const SETTINGS = {
     countdownToStart: 2,
     playing: 3,
     gameOver: 4,
+    levelComplete: 5,
   },
   countdownGap: 700,
   countdownValues: ['2', '1', 'Go!'],
@@ -255,6 +262,70 @@ const WAYPOINTS = {
     {
       rotation: 0,
       x: 660,
+      y: 1300,
+      dirX: 0,
+      dirY: 1,
+    },
+  ],
+  STREAM780: [
+    {
+      rotation: 0,
+      x: 780,
+      y: -90,
+      dirX: 0,
+      dirY: 0,
+    },
+    {
+      rotation: 0,
+      x: 780,
+      y: 1300,
+      dirX: 0,
+      dirY: 1,
+    },
+  ],
+  STREAM900: [
+    {
+      rotation: 0,
+      x: 900,
+      y: -90,
+      dirX: 0,
+      dirY: 0,
+    },
+    {
+      rotation: 0,
+      x: 900,
+      y: 1300,
+      dirX: 0,
+      dirY: 1,
+    },
+  ],
+  STREAM1020: [
+    {
+      rotation: 0,
+      x: 1020,
+      y: -90,
+      dirX: 0,
+      dirY: 0,
+    },
+    {
+      rotation: 0,
+      x: 1020,
+      y: 1300,
+      dirX: 0,
+      dirY: 1,
+    },
+  ],
+  STREAM1140: [
+    {
+      rotation: 0,
+      x: 1140,
+      y: -90,
+      dirX: 0,
+      dirY: 0,
+    },
+    {
+      rotation: 0,
+      x: 1140,
       y: 1300,
       dirX: 0,
       dirY: 1,
@@ -393,6 +464,98 @@ const WAYPOINTS = {
     {
       rotation: 0,
       x: 660,
+      y: -90,
+      dirX: 0,
+      dirY: -1,
+    },
+  ],
+  STREAM780RETURN: [
+    {
+      rotation: 0,
+      x: 780,
+      y: -90,
+      dirX: 0,
+      dirY: 0,
+    },
+    {
+      rotation: 0,
+      x: 780,
+      y: 512,
+      dirX: 0,
+      dirY: 1,
+    },
+    {
+      rotation: 0,
+      x: 780,
+      y: -90,
+      dirX: 0,
+      dirY: -1,
+    },
+  ],
+  STREAM900RETURN: [
+    {
+      rotation: 0,
+      x: 900,
+      y: -90,
+      dirX: 0,
+      dirY: 0,
+    },
+    {
+      rotation: 0,
+      x: 900,
+      y: 512,
+      dirX: 0,
+      dirY: 1,
+    },
+    {
+      rotation: 0,
+      x: 900,
+      y: -90,
+      dirX: 0,
+      dirY: -1,
+    },
+  ],
+  STREAM1020RETURN: [
+    {
+      rotation: 0,
+      x: 1020,
+      y: -90,
+      dirX: 0,
+      dirY: 0,
+    },
+    {
+      rotation: 0,
+      x: 1020,
+      y: 512,
+      dirX: 0,
+      dirY: 1,
+    },
+    {
+      rotation: 0,
+      x: 1020,
+      y: -90,
+      dirX: 0,
+      dirY: -1,
+    },
+  ],
+  STREAM1140RETURN: [
+    {
+      rotation: 0,
+      x: 1140,
+      y: -90,
+      dirX: 0,
+      dirY: 0,
+    },
+    {
+      rotation: 0,
+      x: 1140,
+      y: 512,
+      dirX: 0,
+      dirY: 1,
+    },
+    {
+      rotation: 0,
+      x: 1140,
       y: -90,
       dirX: 0,
       dirY: -1,
@@ -734,16 +897,56 @@ const ENEMY_SPEED = {
   medium: 150 / 1000,
   fast: 250 / 1000,
   veryfast: 450 / 1000,
+  asteroid: 800 / 1000,
 };
 
 const ATTACK_BLOCKS = {
-  STREAMDOWN: [
+  STREAMDOWNSINGLE60: [WAYPOINTS.STREAM60],
+  STREAMDOWNSINGLE180: [WAYPOINTS.STREAM180],
+  STREAMDOWNSINGLE300: [WAYPOINTS.STREAM300],
+  STREAMDOWNSINGLE420: [WAYPOINTS.STREAM420],
+  STREAMDOWNSINGLE660: [WAYPOINTS.STREAM660],
+  STREAMDOWNSINGLE780: [WAYPOINTS.STREAM780],
+  STREAMDOWNSINGLE900: [WAYPOINTS.STREAM900],
+  STREAMDOWNSINGLE1020: [WAYPOINTS.STREAM1020],
+  STREAMDOWNSINGLE1140: [WAYPOINTS.STREAM1140],
+  STREAMRETURNSINGLE60: [WAYPOINTS.STREAM60RETURN],
+  STREAMRETURNSINGLE180: [WAYPOINTS.STREAM180RETURN],
+  STREAMRETURNSINGLE300: [WAYPOINTS.STREAM300RETURN],
+  STREAMRETURNSINGLE420: [WAYPOINTS.STREAM420RETURN],
+  STREAMRETURNSINGLE660: [WAYPOINTS.STREAM660RETURN],
+  STREAMRETURNSINGLE780: [WAYPOINTS.STREAM780RETURN],
+  STREAMRETURNSINGLE900: [WAYPOINTS.STREAM900RETURN],
+  STREAMRETURNSINGLE1020: [WAYPOINTS.STREAM1020RETURN],
+  STREAMRETURNSINGLE1140: [WAYPOINTS.STREAM1140RETURN],
+  STREAMDOWNLEFT: [
     WAYPOINTS.STREAM60,
     WAYPOINTS.STREAM180,
     WAYPOINTS.STREAM300,
     WAYPOINTS.STREAM420,
     WAYPOINTS.STREAM540,
     WAYPOINTS.STREAM660,
+  ],
+  STREAMDOWNRIGTH: [
+    WAYPOINTS.STREAM660,
+    WAYPOINTS.STREAM780,
+    WAYPOINTS.STREAM900,
+    WAYPOINTS.STREAM420,
+    WAYPOINTS.STREAM1020,
+    WAYPOINTS.STREAM1140,
+  ],
+  STREAMDOWNFULL: [
+    WAYPOINTS.STREAM60,
+    WAYPOINTS.STREAM180,
+    WAYPOINTS.STREAM300,
+    WAYPOINTS.STREAM420,
+    WAYPOINTS.STREAM540,
+    WAYPOINTS.STREAM660,
+    WAYPOINTS.STREAM780,
+    WAYPOINTS.STREAM900,
+    WAYPOINTS.STREAM420,
+    WAYPOINTS.STREAM1020,
+    WAYPOINTS.STREAM1140,
   ],
   STREAMDOWNMIXED: [
     WAYPOINTS.STREAM300,
