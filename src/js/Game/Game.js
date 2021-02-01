@@ -64,6 +64,11 @@ class Game {
     }
   }
 
+  hidePreloader() {
+    const preloader = document.querySelector('.preloader');
+    preloader.style.display = 'none';
+  }
+
   initStartScreen() {
     const game = document.querySelector('.game');
     const startScreen = document.querySelector('.start-screen');
@@ -168,6 +173,9 @@ class Game {
         // eslint-disable-next-line no-console
         console.log('Assets Done:', GameManager.assets);
         this.resetGame();
+        // preloader
+        this.hidePreloader();
+        this.initStartScreen();
       }
     });
   }
@@ -176,7 +184,7 @@ class Game {
     this.controls.init();
     this.settingsMenu.init();
     this.sound.init();
-    this.initStartScreen();
+
     this.processAsset(0);
     levelManager.create('level1');
     levelManager.init();
