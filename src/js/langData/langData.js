@@ -17,6 +17,14 @@ const langData = {
         settings: 'Settings',
         about: 'About',
       },
+      about: {
+        's-goal': 'Goal',
+        'about-goal':
+          'Join the battle with the alien fleet and try to survive!',
+        's-controls': 'Controls',
+        'about-controls-move': `1) Move with keys Up, Down, Left, Right`,
+        'about-controls-fire': `2) Fire: key Space`,
+      },
       settings: {
         title: 'Settings',
         subtitle: {
@@ -67,6 +75,14 @@ const langData = {
           's-sound': 'Звуки',
           's-vol': 'Громкость звука',
         },
+        about: {
+          's-goal': 'Цель',
+          'about-goal':
+            'Примите участие в битве инопланетным флотом и попробуйте выжить!',
+          's-controls': 'Управление',
+          'about-controls-move': `1) Движение клавишами Up, Down, Left, Right`,
+          'about-controls-fire': `2) Огонь: клавиша Space`,
+        },
         buttons: {
           'btn-en': 'Англ',
           'btn-ru': 'Рус',
@@ -102,6 +118,14 @@ const langData = {
         save: 'Збер.',
         settings: 'Налашт.',
         about: 'Про гру',
+      },
+      about: {
+        's-goal': 'Мета',
+        'about-goal':
+          'Прийміть участь в битві з інопланетным флотом і спробуйте вижити!',
+        's-controls': 'Управління',
+        'about-controls-move': `1) Рух клавишами Up, Down, Left, Right`,
+        'about-controls-fire': `2) Вогонь: клавіша Space`,
       },
       settings: {
         title: 'Налаштування',
