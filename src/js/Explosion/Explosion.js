@@ -1,5 +1,6 @@
 import Point from '../Point/Point';
 import { GameManager, SETTINGS } from '../gameSettings/settings';
+import * as explosion from '../animations/explosion';
 
 class Explosion {
   constructor(asseName) {
@@ -29,6 +30,7 @@ class Explosion {
     explosionDiv.style.left = `${position.x + this.offset.x}px`;
     explosionDiv.style.top = `${position.y + this.offset.y}px`;
     arena.append(explosionDiv);
+    explosionDiv.animate(explosion.explosionFrames, explosion.explosionTiming);
     this.removeExplosion(explosionDivId);
     this.count += 1;
   }
