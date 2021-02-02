@@ -12,7 +12,7 @@ class SettingsMenu {
     this.soundBtns = document.querySelectorAll('.button--sounds');
     this.parentMenu = document.querySelector('.buttons-wrapper');
     this.volumeSlider = document.querySelector('.range--volume');
-    this.about = document.querySelector('.about');
+    this.about = document.querySelector('.about-menu');
     this.layoutOption = layoutOption;
     this.soundOption = soundOption;
   }
@@ -49,37 +49,49 @@ class SettingsMenu {
     }
   }
 
-  show() {
-    if (!this.parentEl.classList.contains('settings-menu--visible')) {
-      this.parentEl.classList.add('settings-menu--visible');
+  show(el, classEl) {
+    const elem = el;
+    if (!elem.classList.contains(classEl)) {
+      elem.classList.add(classEl);
       this.overlay.style.display = 'flex';
     }
   }
 
-  showAbout() {
-    if (!this.about.classList.contains('about--visible')) {
-      this.about.classList.add('about--visible');
-      this.overlay.style.display = 'flex';
-    }
-  }
+  // show() {
+  //   if (!this.parentEl.classList.contains('settings-menu--visible')) {
+  //     this.parentEl.classList.add('settings-menu--visible');
+  //     this.overlay.style.display = 'flex';
+  //   }
+  // }
 
-  close() {
-    if (this.parentEl.classList.contains('settings-menu--visible')) {
-      this.parentEl.style.display = 'flex';
-      this.parentEl.style.visibility = 'visible';
-      this.parentEl.classList.remove('settings-menu--visible');
+  // showAbout() {
+  //   if (!this.about.classList.contains('about-menu--visible')) {
+  //     this.about.classList.add('about-menu--visible');
+  //     this.overlay.style.display = 'flex';
+  //   }
+  // }
+
+  close(el, classEl) {
+    const elem = el;
+    if (elem.classList.contains(classEl)) {
+      elem.classList.remove(classEl);
       this.overlay.style.display = 'none';
     }
   }
 
-  closeAbout() {
-    if (this.about.classList.contains('about--visible')) {
-      this.about.style.display = 'flex';
-      this.about.style.visibility = 'visible';
-      this.about.classList.remove('about--visible');
-      this.overlay.style.display = 'none';
-    }
-  }
+  // close() {
+  //   if (this.parentEl.classList.contains('settings-menu--visible')) {
+  //     this.parentEl.classList.remove('settings-menu--visible');
+  //     this.overlay.style.display = 'none';
+  //   }
+  // }
+
+  // closeAbout() {
+  //   if (this.about.classList.contains('about-menu--visible')) {
+  //     this.about.classList.remove('about-menu--visible');
+  //     this.overlay.style.display = 'none';
+  //   }
+  // }
 
   save() {
     storage.set('language', GameManager.language);
@@ -105,24 +117,28 @@ class SettingsMenu {
     }
     switch (action) {
       case 'save':
-      case 'close':
         sound.playSound(soundFiles.clickButton);
         this[action]();
         break;
 
+      case 'close':
+        sound.playSound(soundFiles.clickButton);
+        this.close(this.parentEl, 'settings-menu--visible');
+        break;
+
       case 'closeAbout':
         sound.playSound(soundFiles.clickButton);
-        this.closeAbout();
+        this.close(this.about, 'about-menu--visible');
         break;
 
       case 'settings':
         sound.playSound(soundFiles.clickButton);
-        this.show();
+        this.show(this.parentEl, 'settings-menu--visible');
         break;
 
       case 'about':
         sound.playSound(soundFiles.clickButton);
-        this.showAbout();
+        this.show(this.about, 'about-menu--visible');
         break;
 
       case 'volume':
