@@ -1,4 +1,4 @@
-.about {
+.about-menu {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -37,7 +37,7 @@
   }
 }
 
-.about p {
+.about-menu p {
   // width: 50%;
   margin: 0;
   padding: 0;
@@ -49,7 +49,7 @@
   @include font-Arial-normal;
 }
 
-.about--visible {
+.about-menu--visible {
   display: flex;
   min-width: 40rem;
   // min-width: 40rem;
