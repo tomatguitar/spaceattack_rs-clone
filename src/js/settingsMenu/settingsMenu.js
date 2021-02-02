@@ -12,6 +12,7 @@ class SettingsMenu {
     this.soundBtns = document.querySelectorAll('.button--sounds');
     this.parentMenu = document.querySelector('.buttons-wrapper');
     this.volumeSlider = document.querySelector('.range--volume');
+    this.about = document.querySelector('.about');
     this.layoutOption = layoutOption;
     this.soundOption = soundOption;
   }
@@ -55,11 +56,27 @@ class SettingsMenu {
     }
   }
 
+  showAbout() {
+    if (!this.about.classList.contains('about--visible')) {
+      this.about.classList.add('about--visible');
+      this.overlay.style.display = 'flex';
+    }
+  }
+
   close() {
     if (this.parentEl.classList.contains('settings-menu--visible')) {
       this.parentEl.style.display = 'flex';
       this.parentEl.style.visibility = 'visible';
       this.parentEl.classList.remove('settings-menu--visible');
+      this.overlay.style.display = 'none';
+    }
+  }
+
+  closeAbout() {
+    if (this.about.classList.contains('about--visible')) {
+      this.about.style.display = 'flex';
+      this.about.style.visibility = 'visible';
+      this.about.classList.remove('about--visible');
       this.overlay.style.display = 'none';
     }
   }
@@ -92,10 +109,20 @@ class SettingsMenu {
         sound.playSound(soundFiles.clickButton);
         this[action]();
         break;
+
+      case 'closeAbout':
+        sound.playSound(soundFiles.clickButton);
+        this.closeAbout();
+        break;
+
       case 'settings':
         sound.playSound(soundFiles.clickButton);
         this.show();
-        // GameManager.phase = SETTINGS.GAME_PHASE.paused;
+        break;
+
+      case 'about':
+        sound.playSound(soundFiles.clickButton);
+        this.showAbout();
         break;
 
       case 'volume':
@@ -116,6 +143,9 @@ class SettingsMenu {
       this.onCLick(event);
     });
     this.parentMenu.addEventListener('click', (event) => {
+      this.onCLick(event);
+    });
+    this.about.addEventListener('click', (event) => {
       this.onCLick(event);
     });
     this.parentEl.addEventListener('change', (event) => {
