@@ -74,13 +74,6 @@ const SoundManager = {
   isSound: '',
 };
 
-// const arena = document.querySelector('.game__arena');
-// const arenaWidth = parseInt(getComputedStyle(arena).width, 10);
-// const arenaHeight = parseInt(getComputedStyle(arena).height, 10);
-// const arenaTop = parseInt(arena.getBoundingClientRect().top, 10);
-// const arenaBottom = parseInt(arena.getBoundingClientRect().bottom, 10);
-// const shipLength = 80; // высота корабля в пикселях
-
 const SETTINGS = {
   CONTROLS: {
     keyPress: {
@@ -96,8 +89,6 @@ const SETTINGS = {
     startPosition: {
       x: 0,
       y: 0,
-      // x: arenaWidth / 2,
-      // y: arenaBottom - (arenaTop + shipLength),
     },
     flashOpacity: '0.5',
     flashTime: 300,
@@ -115,8 +106,6 @@ const SETTINGS = {
     height: 0,
     top: 0,
     bottom: 0,
-    // width: arenaWidth,
-    // height: arenaHeight,
   },
   ENEMY: {
     state: {
@@ -180,7 +169,6 @@ const WAYPOINTS = {
       rotation: 0,
       x: 60,
       y: 1300,
-      // y: 620,
       dirX: 0,
       dirY: 1,
     },

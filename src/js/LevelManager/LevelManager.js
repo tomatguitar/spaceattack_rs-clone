@@ -5,8 +5,6 @@ import { GameManager } from '../gameSettings/settings';
 class LevelManager {
   create(levelnumber) {
     GameManager.levels.push(new Level(levelData[levelnumber]));
-    // eslint-disable-next-line no-console
-    console.log('Levels:', GameManager.levels);
   }
 
   init() {

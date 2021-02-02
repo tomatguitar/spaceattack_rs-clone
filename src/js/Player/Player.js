@@ -32,13 +32,9 @@ class Player extends Sprite {
 
     if (this.boundaryRect.OutsideHorizontal(xStep + this.position.x) === true) {
       xStep = 0;
-      // eslint-disable-next-line no-console
-      console.log('Предел по горизонтали');
     }
     if (this.boundaryRect.OutsideVertical(yStep + this.position.y) === true) {
       yStep = 0;
-      // eslint-disable-next-line no-console
-      console.log('Предел по вертикали');
     }
 
     this.incrementPosition(xStep, yStep);
@@ -54,8 +50,6 @@ class Player extends Sprite {
           this.numFlashes += 1;
 
           if (this.numFlashes === SETTINGS.PLAYER.flashes) {
-            // eslint-disable-next-line no-console
-            console.log('Снова в строю!');
             this.state = SETTINGS.PLAYER.state.alive;
             ship.style.display = 'block';
             this.hit = false;
@@ -77,8 +71,6 @@ class Player extends Sprite {
       this.lives -= 1;
       this.setLives();
       sound.playSound(soundFiles.loseLife);
-      // eslint-disable-next-line no-console
-      console.log('Попадание по игроку!');
       if (this.lives > 0) {
         ship.style.opacity = SETTINGS.PLAYER.flashOpacity;
       } else if (this.lives <= 0) {

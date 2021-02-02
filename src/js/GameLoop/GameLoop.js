@@ -22,15 +22,11 @@ class GameLoop {
       GameManager.enemies.update(dt);
 
       if (GameManager.enemies.gameOver) {
-        // eslint-disable-next-line no-console
-        console.log('game over');
         this.showGameOver();
       } else {
         GameManager.bullets.update(dt, SETTINGS.fire);
         GameManager.player.update(dt);
         if (GameManager.player.lives <= 0) {
-          // eslint-disable-next-line no-console
-          console.log('game over');
           this.showGameOver();
         } else if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
           setTimeout(() => this.tick(), SETTINGS.targetFPS);
@@ -71,8 +67,6 @@ class GameLoop {
   }
 
   setCountDownValue(val) {
-    // const message = document.querySelector('.message');
-
     let valNum = val;
     if (val !== 'Go!') {
       valNum = parseInt(val, 10);

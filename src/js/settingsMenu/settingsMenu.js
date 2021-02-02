@@ -57,20 +57,6 @@ class SettingsMenu {
     }
   }
 
-  // show() {
-  //   if (!this.parentEl.classList.contains('settings-menu--visible')) {
-  //     this.parentEl.classList.add('settings-menu--visible');
-  //     this.overlay.style.display = 'flex';
-  //   }
-  // }
-
-  // showAbout() {
-  //   if (!this.about.classList.contains('about-menu--visible')) {
-  //     this.about.classList.add('about-menu--visible');
-  //     this.overlay.style.display = 'flex';
-  //   }
-  // }
-
   close(el, classEl) {
     const elem = el;
     if (elem.classList.contains(classEl)) {
@@ -78,20 +64,6 @@ class SettingsMenu {
       this.overlay.style.display = 'none';
     }
   }
-
-  // close() {
-  //   if (this.parentEl.classList.contains('settings-menu--visible')) {
-  //     this.parentEl.classList.remove('settings-menu--visible');
-  //     this.overlay.style.display = 'none';
-  //   }
-  // }
-
-  // closeAbout() {
-  //   if (this.about.classList.contains('about-menu--visible')) {
-  //     this.about.classList.remove('about-menu--visible');
-  //     this.overlay.style.display = 'none';
-  //   }
-  // }
 
   save() {
     storage.set('language', GameManager.language);

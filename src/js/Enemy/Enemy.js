@@ -52,8 +52,6 @@ class Enemy extends Sprite {
     if (this.containingBox.IntersectedBy(this.player.containingBox)) {
       if (!this.player.hit) {
         this.player.hit = true;
-        // eslint-disable-next-line no-console
-        console.log('столкновение с игроком');
       }
     }
   }
@@ -83,8 +81,6 @@ class Enemy extends Sprite {
     ) {
       if (this.targetWayPointNumber === this.lastWayPointIndex) {
         this.killMe();
-        // eslint-disable-next-line no-console
-        console.log('reached end');
       } else {
         this.setNextWayPoint();
       }

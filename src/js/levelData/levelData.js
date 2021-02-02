@@ -1,6 +1,5 @@
 import {
   imageFiles,
-  // ENEMY_SEQUENCES,
   ATTACK_BLOCKS,
   ENEMY_SPEED,
 } from '../gameSettings/settings';

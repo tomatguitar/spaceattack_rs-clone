@@ -86,8 +86,6 @@ class EnemyCollection {
   checkGameOver() {
     if (this.listEnemies.length === 0 && this.sequencesDone === true) {
       this.gameOver = true;
-      // eslint-disable-next-line no-console
-      console.log('game over');
     }
   }
 
@@ -107,8 +105,6 @@ class EnemyCollection {
     this.lastAdded = 0;
     if (this.sequenceIndex === ENEMY_SEQUENCES.length) {
       this.sequencesDone = true;
-      // eslint-disable-next-line no-console
-      console.log('seuences done');
     }
   }
 }

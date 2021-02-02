@@ -38,7 +38,6 @@
 }
 
 .about-menu p {
-  // width: 50%;
   margin: 0;
   padding: 0;
   padding: 1rem;
@@ -52,13 +51,10 @@
 .about-menu--visible {
   display: flex;
   min-width: 40rem;
-  // min-width: 40rem;
 
   visibility: visible;
-  // animation-iteration-count: 1;
   opacity: 1;
 
-  // transition: min-width 0.5s;
   animation: menuShow 0.5s linear;
   animation-play-state: running;
 }

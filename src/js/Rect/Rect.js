@@ -3,7 +3,7 @@ import Size from '../Size/Size';
 
 class Rect {
   constructor(x, y, width, height) {
-    this.origin = new Point(x, y); //  начало  баръера( координатылево, верх)
+    this.origin = new Point(x, y); //  начало  баръера( координаты лево, верх)
     this.size = new Size(width, height);
     this.max = new Point(
       this.origin.x + this.size.width,

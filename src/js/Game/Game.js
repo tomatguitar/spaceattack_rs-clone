@@ -113,8 +113,6 @@ class Game {
       // сейчас первый элемент в массиве  это картинка корабля игрока
       this.createPlayer();
     }
-    // eslint-disable-next-line no-console
-    console.log('resetplayer() GameManager.player:', GameManager.player);
     GameManager.player.reset();
   }
 
@@ -136,8 +134,6 @@ class Game {
 
   // инициализация игры
   resetGame() {
-    // eslint-disable-next-line no-console
-    console.log('Main Game reset()');
     this.gameLoop.clearTimeouts();
     stars.removeStars();
     this.arena.updateArenaSize();
@@ -158,7 +154,6 @@ class Game {
     const img = new Image();
     const imageFilesArr = Object.values(imageFiles).flat();
     const currentImage = imageFilesArr[currentIndex];
-    // const imgFileName = `url('../assets/static/images/${currentImage}.png')`;
     img.src = currentImage;
     img.addEventListener('load', () => {
       GameManager.assets[currentImage] = {
@@ -170,8 +165,6 @@ class Game {
       if (currentIndex < imageFilesArr.length) {
         this.processAsset(currentIndex);
       } else {
-        // eslint-disable-next-line no-console
-        console.log('Assets Done:', GameManager.assets);
         this.resetGame();
         // preloader
         this.hidePreloader();
@@ -188,7 +181,6 @@ class Game {
     this.processAsset(0);
     levelManager.create('level1');
     levelManager.init();
-    // setUpSquences();
     this.startBtn.addEventListener('click', () => {
       this.toggleStartPause();
     });

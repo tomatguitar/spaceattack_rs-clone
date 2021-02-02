@@ -1,9 +1,4 @@
-import {
-  // imageFiles,
-  ENEMY_SEQUENCES,
-  // ATTACK_BLOCKS,
-  // ENEMY_SPEED,
-} from '../gameSettings/settings';
+import { ENEMY_SEQUENCES } from '../gameSettings/settings';
 
 class Level {
   constructor(data) {
