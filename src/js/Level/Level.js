@@ -6,33 +6,15 @@ import {
 } from '../gameSettings/settings';
 
 class Level {
-  constructor({
-    music,
-    image,
-    sequences,
-    // delayBeetween,
-    // imageEnemy,
-    // number,
-    // attackBlock,
-    // score,
-    // lives,
-    // speed,
-    // delayBefore,
-  }) {
-    this.waves = 0;
-    this.wavesCounter = 0;
-    this.background = '';
-    this.music = music;
-    this.image = image;
-    this.sequences = sequences;
-    // this.delayBeetween = delayBeetween;
-    // this.imageEnemy = imageEnemy;
-    // this.number = number;
-    // this.attackBlock = attackBlock;
-    // this.score = score;
-    // this.lives = lives;
-    // this.speed = speed;
-    // this.delayBefore = delayBefore;
+  constructor(data) {
+    this.background = data.background;
+    this.sequences = data.sequences;
+  }
+
+  setBackground() {
+    const bckgImg = document.querySelector('.background');
+    bckgImg.style.background = `url('${this.background}') repeat-y`;
+    bckgImg.style.backgroundSize = 'cover';
   }
 
   addEnemySequence(
@@ -83,7 +65,6 @@ class Level {
   setUpSequences() {
     for (let i = 0; i < this.sequences.length; i++) {
       this.createSequence(this.sequences[i]);
-      this.waves += 1;
     }
   }
 }

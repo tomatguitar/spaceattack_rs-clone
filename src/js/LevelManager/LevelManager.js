@@ -1,5 +1,5 @@
 import Level from '../Level/Level';
-import levelData from '../Level/levelData';
+import levelData from '../levelData/levelData';
 import { GameManager } from '../gameSettings/settings';
 
 class LevelManager {
@@ -10,7 +10,8 @@ class LevelManager {
   }
 
   init() {
-    return GameManager.levels[0].setUpSequences();
+    GameManager.levels[0].setBackground();
+    GameManager.levels[0].setUpSequences();
   }
 }
 
