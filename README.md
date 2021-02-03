@@ -6,20 +6,20 @@ Please make sure that your file is unpacked in a Web-accessible
 directory.
 After downloading you will see the following directories and files:
 
-/config
-/src
-.babelrc
-.editorconfig
-.eslintignore
-.eslintrc.json
-.gitignore
-.prettierrc
-.stylelintrc.json
-CHANGELOG.md
-package.json
-package-lock.json
-postcss.config.js
-README.md
+- /config
+- /src
+-.babelrc
+- .editorconfig
+- .eslintignore
+- .eslintrc.json
+- .gitignore
+- .prettierrc
+- .stylelintrc.json
+- CHANGELOG.md
+- package.json
+- package-lock.json
+- postcss.config.js
+- README.md
 
 ## PREPARATION
 
