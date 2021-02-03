@@ -11,7 +11,7 @@ import * as stars from '../animations/stars';
 
 class GameLoop {
   // аналог ф-ции update
-  tick() {
+  static tick() {
     if (GameManager.phase !== SETTINGS.GAME_PHASE.paused) {
       const now = Date.now();
       const dt = now - GameManager.lastUpdated;
@@ -29,7 +29,7 @@ class GameLoop {
         if (GameManager.player.lives <= 0) {
           this.showGameOver();
         } else if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
-          setTimeout(() => this.tick(), SETTINGS.targetFPS);
+          window.requestAnimationFrame(GameLoop.tick);
         }
       }
     }
@@ -56,7 +56,7 @@ class GameLoop {
     sound.playSound(soundFiles.go);
     GameManager.phase = SETTINGS.GAME_PHASE.playing;
     GameManager.lastUpdated = Date.now();
-    setTimeout(() => this.tick(), SETTINGS.targetFPS);
+    window.requestAnimationFrame(GameLoop.tick);
   }
 
   clearTimeouts() {
