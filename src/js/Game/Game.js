@@ -22,6 +22,7 @@ import * as stars from '../animations/stars';
 import SettingsMenu from '../settingsMenu/settingsMenu';
 import message from '../Message/Message';
 
+import clearTimeouts from '../clearTimeouts/clearTimeouts';
 import control from '../Control/Control';
 import gameLoop from '../GameLoop/GameLoop';
 import layout from '../Layout/Layout';
@@ -134,7 +135,7 @@ class Game {
 
   // инициализация игры
   resetGame() {
-    this.gameLoop.clearTimeouts();
+    clearTimeouts();
     stars.removeStars();
     this.arena.updateArenaSize();
     this.arena.updatePlayerStartPosition();

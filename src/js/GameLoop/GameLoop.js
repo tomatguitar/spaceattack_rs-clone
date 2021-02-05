@@ -8,6 +8,7 @@ import sound from '../soundManage/Sound';
 import Control from '../Control/Control';
 import message from '../Message/Message';
 import * as stars from '../animations/stars';
+import clearTimeouts from '../clearTimeouts/clearTimeouts';
 
 class GameLoop {
   // аналог ф-ции update
@@ -22,12 +23,12 @@ class GameLoop {
       GameManager.enemies.update(dt);
 
       if (GameManager.enemies.gameOver) {
-        this.showGameOver();
+        GameLoop.showGameOver();
       } else {
         GameManager.bullets.update(dt, SETTINGS.fire);
         GameManager.player.update(dt);
         if (GameManager.player.lives <= 0) {
-          this.showGameOver();
+          GameLoop.showGameOver();
         } else if (GameManager.phase === SETTINGS.GAME_PHASE.playing) {
           window.requestAnimationFrame(GameLoop.tick);
         }
@@ -59,13 +60,6 @@ class GameLoop {
     window.requestAnimationFrame(GameLoop.tick);
   }
 
-  clearTimeouts() {
-    for (let i = 0; i < GameManager.timeouts.length; i++) {
-      clearTimeout(GameManager.timeouts[i]);
-    }
-    GameManager.timeouts = [];
-  }
-
   setCountDownValue(val) {
     let valNum = val;
     if (val !== 'Go!') {
@@ -75,12 +69,12 @@ class GameLoop {
     message.writeMessage(valNum);
   }
 
-  showGameOver() {
+  static showGameOver() {
     GameManager.phase = SETTINGS.GAME_PHASE.gameOver;
     setTimeout(() => {
       stars.pauseBackground();
       stars.pauseStars();
-      this.clearTimeouts();
+      clearTimeouts();
 
       if (GameManager.enemies.gameOver) {
         SoundManager.gainNodeGame.gain.setValueAtTime(
